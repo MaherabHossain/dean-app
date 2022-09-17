@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables
 
-import 'package:dean/screens/MainScreens/AllCoursesScreen.dart';
+import 'package:dean/screens/MainScreens/course/AllCoursesScreen.dart';
 import 'package:dean/screens/MainScreens/HomePage.dart';
 import 'package:dean/screens/MainScreens/HomeScreen.dart';
 import 'package:dean/screens/splashScreen/forgotPasswordScreen.dart';

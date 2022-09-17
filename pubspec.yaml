@@ -39,6 +39,7 @@ dependencies:
   rating_bar: ^0.2.0
   flutter_screenutil: ^5.5.4
   flutter_animation_progress_bar: ^2.2.1
+  video_player: ^2.4.7
 
 dev_dependencies:
   flutter_test:

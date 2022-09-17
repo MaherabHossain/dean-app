@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:dean/screens/MainScreens/AllCoursesScreen.dart';
-import 'package:dean/screens/MainScreens/BootCampScreen.dart';
+import 'package:dean/screens/MainScreens/course/AllCoursesScreen.dart';
+import 'package:dean/screens/MainScreens/course/BootCampScreen.dart';
 import 'package:dean/screens/MainScreens/HomeScreen.dart';
-import 'package:dean/screens/MainScreens/MyCoursesScreen.dart';
+import 'package:dean/screens/MainScreens/course/CourseDetailsScreen.dart';
+import 'package:dean/screens/MainScreens/course/MyCoursesScreen.dart';
+import 'package:dean/screens/MainScreens/course/SelectBatchScreen.dart';
 import 'package:dean/screens/MainScreens/profile/EditProfileScreen.dart';
 import 'package:dean/screens/MainScreens/profile/PaymentMathodScreen.dart';
 import 'package:dean/screens/MainScreens/profile/TransactionScreen.dart';
@@ -91,6 +93,14 @@ class _MyHomePageState extends State<MyHomePage> {
               GetPage(
                 name: '/transaction-history',
                 page: () => TransactionScreen(),
+              ),
+              GetPage(
+                name: '/course-details',
+                page: () => CoursedetailsScreen(),
+              ),
+              GetPage(
+                name: '/select-batch',
+                page: () => SelectBatchScreen(),
               ),
 
               /// Dynamic route

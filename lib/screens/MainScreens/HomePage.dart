@@ -1,9 +1,10 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables
 
-import 'package:dean/screens/MainScreens/AllCoursesScreen.dart';
-import 'package:dean/screens/MainScreens/BootCampScreen.dart';
+import 'package:dean/screens/MainScreens/course/AllCoursesScreen.dart';
+import 'package:dean/screens/MainScreens/course/BootCampScreen.dart';
 import 'package:dean/screens/MainScreens/HomeScreen.dart';
-import 'package:dean/screens/MainScreens/MyCoursesScreen.dart';
+
+import 'package:dean/screens/MainScreens/course/MyCoursesScreen.dart';
 import 'package:dean/screens/MainScreens/profile/profile.dart';
 import 'package:dean/screens/MainScreens/profile/profileScreen.dart';
 import 'package:dean/utilities/utility.dart';
