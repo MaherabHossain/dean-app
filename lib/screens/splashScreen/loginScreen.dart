@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Get.offAll(ForgotPaswordScreen());
+                  Get.to(ForgotPaswordScreen());
                 },
                 child: Align(
                   alignment: Alignment.centerRight,

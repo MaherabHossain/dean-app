@@ -1,14 +1,16 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables
 
+import 'package:dean/screens/MainScreens/profile/profileScreen.dart';
 import 'package:dean/screens/MainScreens/widgets/MyCources.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
+import 'package:get/get.dart';
 
 class MyCourcesScreen extends StatefulWidget {
   const MyCourcesScreen({super.key});
-
+//
   @override
   State<MyCourcesScreen> createState() => _MyCourcesScreenState();
 }
@@ -79,10 +81,36 @@ class _MyCourcesScreenState extends State<MyCourcesScreen> {
                   crossAxisSpacing: 20,
                 ),
                 children: [
-                  MyCources(),
-                  MyCources(),
-                  MyCources(),
-                  MyCources(),
+                  InkWell(
+                    onTap: (() {
+                      // Get.to(ProfileScreen());
+                    }),
+                    child: MyCources(),
+                  ),
+                  InkWell(
+                    onTap: (() {
+                      // Get.to(ProfileScreen());
+                    }),
+                    child: MyCources(),
+                  ),
+                  InkWell(
+                    onTap: (() {
+                      // Get.to(ProfileScreen());
+                    }),
+                    child: MyCources(),
+                  ),
+                  InkWell(
+                    onTap: (() {
+                      // Get.to(ProfileScreen());
+                    }),
+                    child: MyCources(),
+                  ),
+                  InkWell(
+                    onTap: (() {
+                      // Get.to(ProfileScreen());
+                    }),
+                    child: MyCources(),
+                  ),
                 ],
               ),
             ),

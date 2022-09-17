@@ -4,6 +4,8 @@ import 'package:dean/screens/MainScreens/AllCoursesScreen.dart';
 import 'package:dean/screens/MainScreens/BootCampScreen.dart';
 import 'package:dean/screens/MainScreens/HomeScreen.dart';
 import 'package:dean/screens/MainScreens/MyCoursesScreen.dart';
+import 'package:dean/screens/MainScreens/profile/profile.dart';
+import 'package:dean/screens/MainScreens/profile/profileScreen.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -21,7 +23,8 @@ class _HomePageState extends State<HomePage> {
     HomeScreen(),
     AllCourseScreen(),
     BootCampSceen(),
-    MyCourcesScreen()
+    MyCourcesScreen(),
+    ProfileScreen(),
   ];
   var initialPage = 0;
   @override
@@ -57,7 +60,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'My Cources',
+            label: 'Profile',
           ),
         ],
       ),

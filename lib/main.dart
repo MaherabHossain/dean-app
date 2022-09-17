@@ -1,5 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:dean/screens/MainScreens/AllCoursesScreen.dart';
+import 'package:dean/screens/MainScreens/BootCampScreen.dart';
+import 'package:dean/screens/MainScreens/HomeScreen.dart';
+import 'package:dean/screens/MainScreens/MyCoursesScreen.dart';
+import 'package:dean/screens/MainScreens/profile/EditProfileScreen.dart';
+import 'package:dean/screens/MainScreens/profile/PaymentMathodScreen.dart';
+import 'package:dean/screens/MainScreens/profile/TransactionScreen.dart';
+import 'package:dean/screens/MainScreens/profile/profileScreen.dart';
 import 'package:dean/screens/splashScreen/splashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,6 +52,48 @@ class _MyHomePageState extends State<MyHomePage> {
                 name: '/splash',
                 page: () => SplashScreen(),
               ), // Dynamic route
+              GetPage(
+                name: '/home',
+                page: () => HomeScreen(),
+              ),
+              GetPage(
+                name: '/all-cources',
+                page: () => AllCourseScreen(),
+              ),
+
+              /// Dynamic route
+              GetPage(
+                name: '/all-bootcamp',
+                page: () => BootCampSceen(),
+              ),
+
+              /// Dynamic route
+              GetPage(
+                name: '/my-cources',
+                page: () => MyCourcesScreen(),
+              ),
+
+              /// Dynamic route
+              GetPage(
+                name: '/profile',
+                page: () => ProfileScreen(),
+              ),
+
+              /// Dynamic route
+              GetPage(
+                name: '/edit-profile',
+                page: () => EditProfileScreen(),
+              ),
+              GetPage(
+                name: '/payment-method',
+                page: () => PaymentMethodScreen(),
+              ),
+              GetPage(
+                name: '/transaction-history',
+                page: () => TransactionScreen(),
+              ),
+
+              /// Dynamic route
             ],
           )),
     );

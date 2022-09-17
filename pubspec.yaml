@@ -70,6 +70,8 @@ flutter:
     - assets/images/courseImage.png
     - assets/images/deanText.png
     - assets/images/deanSubtitle.png
+    - assets/images/masterCard.png
+    - assets/images/payoneer.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
