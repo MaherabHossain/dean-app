@@ -3,6 +3,7 @@
 import 'package:dean/screens/MainScreens/course/AllCoursesScreen.dart';
 import 'package:dean/screens/MainScreens/course/BootCampScreen.dart';
 import 'package:dean/screens/MainScreens/HomeScreen.dart';
+import 'package:dean/screens/MainScreens/course/CheckOutScreen.dart';
 import 'package:dean/screens/MainScreens/course/CourseDetailsScreen.dart';
 import 'package:dean/screens/MainScreens/course/MyCoursesScreen.dart';
 import 'package:dean/screens/MainScreens/course/SelectBatchScreen.dart';
@@ -101,6 +102,10 @@ class _MyHomePageState extends State<MyHomePage> {
               GetPage(
                 name: '/select-batch',
                 page: () => SelectBatchScreen(),
+              ),
+              GetPage(
+                name: '/check-out',
+                page: () => CheckOutScreen(),
               ),
 
               /// Dynamic route

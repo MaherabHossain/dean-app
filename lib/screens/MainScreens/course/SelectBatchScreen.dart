@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:dean/screens/MainScreens/course/CheckOutScreen.dart';
 import 'package:dean/screens/MainScreens/widgets/PaymentMethodCard.dart';
 import 'package:dean/screens/MainScreens/widgets/Profilecard.dart';
 import 'package:dean/utilities/utility.dart';
@@ -161,7 +162,7 @@ class _SelectBatchScreenState extends State<SelectBatchScreen> {
                               fontWeight: FontWeight.w600),
                         ),
                         subtitle: Text(
-                          "Batch selected: I will select later",
+                          "Batch selected: I will select laterss",
                           style:
                               TextStyle(color: Color.fromARGB(255, 59, 58, 58)),
                         ),
@@ -179,103 +180,164 @@ class _SelectBatchScreenState extends State<SelectBatchScreen> {
                             for (int i = 0; i < batches.length - 1; i += 2)
                               Row(
                                 children: [
-                                  Container(
-                                    padding: EdgeInsets.only(
-                                        left: 16,
-                                        top: 14,
-                                        bottom: 22,
-                                        right: 16),
-                                    margin: EdgeInsets.only(bottom: 30.h),
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.5,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              batches[i]['day'],
-                                              style: TextStyle(
-                                                fontSize: 12.sp,
-                                                fontWeight: FontWeight.w700,
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        batches[i]['isSelect'] =
+                                            !batches[i]['isSelect'];
+                                      });
+                                      for (int j = 0; j < batches.length; ++j) {
+                                        if (i != j) {
+                                          batches[j]['isSelect'] = false;
+                                        }
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                          left: 16,
+                                          top: 14,
+                                          bottom: 22,
+                                          right: 16),
+                                      margin: EdgeInsets.only(bottom: 30.h),
+                                      width: MediaQuery.of(context).size.width /
+                                          2.5,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: batches[i]['isSelect']
+                                                ? Color.fromARGB(
+                                                    255, 228, 181, 26)
+                                                : Colors.black),
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: batches[i]['isSelect']
+                                            ? Color.fromARGB(255, 228, 181, 26)
+                                            : Color.fromARGB(
+                                                255, 255, 255, 255),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                batches[i]['day'],
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: batches[i]['isSelect']
+                                                      ? Colors.white
+                                                      : Colors.black,
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                              batches[i]['date'],
-                                              style: TextStyle(
-                                                fontSize: 12.sp,
+                                              Text(
+                                                batches[i]['date'],
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  color: batches[i]['isSelect']
+                                                      ? Colors.white
+                                                      : Colors.black,
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 5.h,
-                                        ),
-                                        Text(
-                                          batches[i]['time'],
-                                          style: TextStyle(
-                                            fontSize: 12.sp,
+                                            ],
                                           ),
-                                        )
-                                      ],
+                                          SizedBox(
+                                            height: 5.h,
+                                          ),
+                                          Text(
+                                            batches[i]['time'],
+                                            style: TextStyle(
+                                              fontSize: 12.sp,
+                                              color: batches[i]['isSelect']
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
                                     width: 20.h,
                                   ),
-                                  Container(
-                                    padding: EdgeInsets.only(
-                                        left: 16,
-                                        top: 14,
-                                        bottom: 22,
-                                        right: 16),
-                                    margin: EdgeInsets.only(bottom: 30.h),
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.5,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              batches[i + 1]['day'],
-                                              style: TextStyle(
-                                                fontSize: 12.sp,
-                                                fontWeight: FontWeight.w700,
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        batches[i + 1]['isSelect'] =
+                                            !batches[i + 1]['isSelect'];
+                                      });
+                                      for (int j = 0; j < batches.length; ++j) {
+                                        if (i + 1 != j) {
+                                          batches[j]['isSelect'] = false;
+                                        }
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                          left: 16,
+                                          top: 14,
+                                          bottom: 22,
+                                          right: 16),
+                                      margin: EdgeInsets.only(bottom: 30.h),
+                                      width: MediaQuery.of(context).size.width /
+                                          2.5,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: batches[i + 1]['isSelect']
+                                                ? Color.fromARGB(
+                                                    255, 228, 181, 26)
+                                                : Colors.black),
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: batches[i + 1]['isSelect']
+                                            ? Color.fromARGB(255, 228, 181, 26)
+                                            : Colors.white,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                batches[i + 1]['day'],
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: batches[i + 1]
+                                                          ['isSelect']
+                                                      ? Colors.white
+                                                      : Colors.black,
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                              batches[i + 1]['date'],
-                                              style: TextStyle(
-                                                fontSize: 12.sp,
+                                              Text(
+                                                batches[i + 1]['date'],
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  color: batches[i + 1]
+                                                          ['isSelect']
+                                                      ? Colors.white
+                                                      : Colors.black,
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 5.h,
-                                        ),
-                                        Text(
-                                          batches[i + 1]['time'],
-                                          style: TextStyle(
-                                            fontSize: 12.sp,
+                                            ],
                                           ),
-                                        )
-                                      ],
+                                          SizedBox(
+                                            height: 5.h,
+                                          ),
+                                          Text(
+                                            batches[i + 1]['time'],
+                                            style: TextStyle(
+                                              fontSize: 12.sp,
+                                              color: batches[i + 1]['isSelect']
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -368,13 +430,18 @@ class _SelectBatchScreenState extends State<SelectBatchScreen> {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 2,
-                      child: Center(
-                        child: Text(
-                          "Next",
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(CheckOutScreen());
+                        },
+                        child: Center(
+                          child: Text(
+                            "Next",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),

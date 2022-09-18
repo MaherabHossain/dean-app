@@ -35,7 +35,7 @@ class _PaymentMethodCardState extends State<PaymentMethodCard> {
           style: TextStyle(color: Color.fromARGB(255, 59, 58, 58)),
         ),
         trailing: Container(
-          padding: EdgeInsets.only(top: 15.h, bottom: 10.h, right: 22.w),
+          padding: EdgeInsets.only(top: 15.h, right: 22.w),
           child: Column(
             children: [
               Text(

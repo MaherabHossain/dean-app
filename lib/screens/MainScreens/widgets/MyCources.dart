@@ -42,6 +42,7 @@ class _MyCourcesState extends State<MyCources> {
           footer: GridTileBar(
             backgroundColor: Colors.black54,
             title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "Software Testing Advance Course",
@@ -51,9 +52,9 @@ class _MyCourcesState extends State<MyCources> {
                       color: Colors.white),
                 ),
                 Container(
-                  margin: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width / 5,
-                  ),
+                  // margin: EdgeInsets.only(
+                  //   left: MediaQuery.of(context).size.width / 5,
+                  // ),
                   child: Text(
                     "80%",
                     style: TextStyle(

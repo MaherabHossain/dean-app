@@ -29,105 +29,96 @@ class _AllCourseScreenState extends State<AllCourseScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    var gridView = GridView(
-      // physics: NeverScrollableScrollPhysics(),
-      // shrinkWrap: true,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, mainAxisExtent: 180, crossAxisSpacing: 10),
-      children: [
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-      ],
-    );
     return SafeArea(
         child: Scaffold(
-      body: Column(
-        children: [
-          Container(
-            height: 67.h,
-            padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 16.h),
-            color: primaryColor,
-            child: Row(
-              children: [
-                Text(
-                  "All Cources",
-                  style: TextStyle(
-                      fontSize: 20.sp,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700),
-                ),
-                SizedBox(
-                  width: 170.w,
-                ),
-                Icon(
-                  Icons.search,
-                  color: Colors.white,
-                  size: 20.sp,
-                )
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: 67.h,
+              padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 16.h),
+              color: primaryColor,
+              child: Row(
+                children: [
+                  Text(
+                    "All Cources",
+                    style: TextStyle(
+                        fontSize: 20.sp,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  SizedBox(
+                    width: 170.w,
+                  ),
+                  Icon(
+                    Icons.search,
+                    color: Colors.white,
+                    size: 20.sp,
+                  )
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: 13.h,
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 15.h),
-            child: SizedBox(
-              height: 25.h,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: ((context, index) {
-                  return InkWell(
-                      onTap: () {
-                        setState(() {
-                          categoriesList[index]['selected'] = true;
-                        });
+            SizedBox(
+              height: 13.h,
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 15.h),
+              child: SizedBox(
+                height: 25.h,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: ((context, index) {
+                    return InkWell(
+                        onTap: () {
+                          setState(() {
+                            categoriesList[index]['selected'] = true;
+                          });
 
-                        for (var i = 0; i < categoriesList.length; i++) {
-                          if (i != index) {
-                            setState(() {
-                              categoriesList[i]['selected'] = false;
-                            });
+                          for (var i = 0; i < categoriesList.length; i++) {
+                            if (i != index) {
+                              setState(() {
+                                categoriesList[i]['selected'] = false;
+                              });
+                            }
                           }
-                        }
-                        print(categoriesList[index]['name']);
-                        print(categoriesList[index]['selected']);
-                      },
-                      child: Categories(categoriesList[index]['selected'],
-                          categoriesList[index]['name']));
-                }),
-                itemCount: categoriesList.length,
+                          print(categoriesList[index]['name']);
+                          print(categoriesList[index]['selected']);
+                        },
+                        child: Categories(categoriesList[index]['selected'],
+                            categoriesList[index]['name']));
+                  }),
+                  itemCount: categoriesList.length,
+                ),
               ),
             ),
-          ),
-          Divider(
-            color: Color.fromARGB(255, 139, 139, 139), //color of divider
-            height: 1, //height spacing of divider
-            thickness: 1, //thickness of divier line
-            indent: 15, //spacing at the start of divider
-          ),
-          SizedBox(
-            height: 17.h,
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Container(
-                child: gridView,
-              ),
+            Divider(
+              color: Color.fromARGB(255, 139, 139, 139), //color of divider
+              height: 1, //height spacing of divider
+              thickness: 1, //thickness of divier line
+              indent: 15, //spacing at the start of divider
             ),
-          )
-        ],
+            SizedBox(
+              height: 17.h,
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+              child: Column(
+                children: [
+                  for (int i = 0; i < 10; i += 2)
+                    Row(
+                      children: [
+                        CourseCard(),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        CourseCard(),
+                      ],
+                    )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     ));
   }

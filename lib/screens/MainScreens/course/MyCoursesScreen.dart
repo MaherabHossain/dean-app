@@ -33,6 +33,7 @@ class _MyCourcesScreenState extends State<MyCourcesScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
                       height: 37.h,
@@ -45,9 +46,9 @@ class _MyCourcesScreenState extends State<MyCourcesScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 190.h,
-                    ),
+                    // SizedBox(
+                    //   width: 190.h,
+                    // ),
                     Icon(
                       Icons.search,
                       color: Colors.white,

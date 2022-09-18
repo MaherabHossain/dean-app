@@ -46,108 +46,128 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
     );
     return Scaffold(
-      body: Column(
-        children: [
-          HeroSection(),
-          SizedBox(
-            height: 135.h,
-            child: ListView(
-              // physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              children: [
-                ImageSlider(),
-                ImageSlider(),
-                ImageSlider(),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 15),
-            child: SizedBox(
-              height: 50.h,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            HeroSection(),
+            SizedBox(
+              height: 135.h,
               child: ListView(
                 // physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 children: [
-                  Programs(),
-                  Programs(),
-                  Programs(),
-                  Programs(),
-                  Programs(),
-                  Programs(),
+                  ImageSlider(),
+                  ImageSlider(),
+                  ImageSlider(),
                 ],
               ),
             ),
-          ),
-          SizedBox(
-            height: 13.h,
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 15.h),
-            child: SizedBox(
-              height: 25.h,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: ((context, index) {
-                  return InkWell(
-                      onTap: () {
-                        setState(() {
-                          categoriesList[index]['selected'] = true;
-                        });
+            Container(
+              padding: EdgeInsets.only(left: 15),
+              child: SizedBox(
+                height: 50.h,
+                child: ListView(
+                  // physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    Programs(),
+                    Programs(),
+                    Programs(),
+                    Programs(),
+                    Programs(),
+                    Programs(),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 13.h,
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 15.h),
+              child: SizedBox(
+                height: 25.h,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: ((context, index) {
+                    return InkWell(
+                        onTap: () {
+                          setState(() {
+                            categoriesList[index]['selected'] = true;
+                          });
 
-                        for (var i = 0; i < categoriesList.length; i++) {
-                          if (i != index) {
-                            setState(() {
-                              categoriesList[i]['selected'] = false;
-                            });
+                          for (var i = 0; i < categoriesList.length; i++) {
+                            if (i != index) {
+                              setState(() {
+                                categoriesList[i]['selected'] = false;
+                              });
+                            }
                           }
-                        }
-                        print(categoriesList[index]['name']);
-                        print(categoriesList[index]['selected']);
-                      },
-                      child: Categories(categoriesList[index]['selected'],
-                          categoriesList[index]['name']));
-                }),
-                itemCount: categoriesList.length,
+                          print(categoriesList[index]['name']);
+                          print(categoriesList[index]['selected']);
+                        },
+                        child: Categories(categoriesList[index]['selected'],
+                            categoriesList[index]['name']));
+                  }),
+                  itemCount: categoriesList.length,
+                ),
               ),
             ),
-          ),
-          Divider(
-            color: Color.fromARGB(255, 139, 139, 139), //color of divider
-            height: 1, //height spacing of divider
-            thickness: 1, //thickness of divier line
-            indent: 15.w, //spacing at the start of divider
-          ),
-          // Expanded(
-          //   child: ListView(
-          //     children: [
-          //       GridView.count(
-          //         childAspectRatio: MediaQuery.of(context).size.width /
-          //             (MediaQuery.of(context).size.height / 4),
-          //         crossAxisCount: 2,
-          //         physics:
-          //             NeverScrollableScrollPhysics(), // to disable GridView's scrolling
-          //         shrinkWrap: true, // You won't see infinite size error
-          //         children: <Widget>[
-          //           CourseCard(),
-          //           CourseCard(),
-          //           CourseCard(),
-          //         ],
-          //       ),
-          //     ],
-          //   ),
-          // )
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Container(
-                child: gridView,
-              ),
+            Divider(
+              color: Color.fromARGB(255, 139, 139, 139), //color of divider
+              height: 1, //height spacing of divider
+              thickness: 1, //thickness of divier line
+              indent: 15.w, //spacing at the start of divider
             ),
-          )
-        ],
+            // Expanded(
+            //   child: ListView(
+            //     children: [
+            //       GridView.count(
+            //         childAspectRatio: MediaQuery.of(context).size.width /
+            //             (MediaQuery.of(context).size.height / 4),
+            //         crossAxisCount: 2,
+            //         physics:
+            //             NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+            //         shrinkWrap: true, // You won't see infinite size error
+            //         children: <Widget>[
+            //           CourseCard(),
+            //           CourseCard(),
+            //           CourseCard(),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // )
+            // Expanded(
+            //   child: Padding(
+            //     padding: EdgeInsets.symmetric(horizontal: 20.w),
+            //     child: Container(
+            //       child: gridView,
+            //     ),
+            //   ),
+            // )
+
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+              child: Column(
+                children: [
+                  for (int i = 0; i < 10; i += 2)
+                    Row(
+                      children: [
+                        CourseCard(),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        CourseCard(),
+                      ],
+                    )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -26,6 +26,7 @@ class _CourseCardState extends State<CourseCard> {
         Get.to(CoursedetailsScreen());
       },
       child: Container(
+        margin: EdgeInsets.only(bottom: 20.h),
         // height: 190.h,
         child: Column(
           children: [

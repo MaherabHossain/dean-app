@@ -118,14 +118,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   Text(
                                     "maherabhossain10@gmail.com",
                                     style: TextStyle(
-                                      fontSize: 14.sp,
+                                      fontSize: 12.sp,
                                       color: Colors.white,
                                     ),
                                   ),
                                   Text(
                                     "1 Sep, 2022",
                                     style: TextStyle(
-                                      fontSize: 14.sp,
+                                      fontSize: 12.sp,
                                       color: Colors.white,
                                     ),
                                   )

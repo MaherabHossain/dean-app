@@ -31,7 +31,13 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
       ..initialize().then((_) {
         _visibility = true;
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
+
+        if (mounted) {
+          // check whether the state object is in tree
+          setState(() {
+            // make changes here
+          });
+        }
       });
   }
 
