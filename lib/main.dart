@@ -7,6 +7,7 @@ import 'package:dean/screens/MainScreens/course/CheckOutScreen.dart';
 import 'package:dean/screens/MainScreens/course/CourseDetailsScreen.dart';
 import 'package:dean/screens/MainScreens/course/MyCoursesScreen.dart';
 import 'package:dean/screens/MainScreens/course/SelectBatchScreen.dart';
+import 'package:dean/screens/MainScreens/explore/ExploreScreen.dart';
 import 'package:dean/screens/MainScreens/profile/EditProfileScreen.dart';
 import 'package:dean/screens/MainScreens/profile/PaymentMathodScreen.dart';
 import 'package:dean/screens/MainScreens/profile/TransactionScreen.dart';
@@ -49,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
       designSize: const Size(360, 690),
       builder: ((context, child) => GetMaterialApp(
             debugShowCheckedModeBanner: false,
-            home: SplashScreen(),
+            home: ExploreScreen(),
             getPages: [
               GetPage(
                 name: '/splash',
@@ -106,6 +107,10 @@ class _MyHomePageState extends State<MyHomePage> {
               GetPage(
                 name: '/check-out',
                 page: () => CheckOutScreen(),
+              ),
+              GetPage(
+                name: '/explore',
+                page: () => ExploreScreen(),
               ),
 
               /// Dynamic route
