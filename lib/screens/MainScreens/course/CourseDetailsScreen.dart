@@ -2,10 +2,12 @@
 
 import 'dart:async';
 
+import 'package:chewie/chewie.dart';
 import 'package:dean/screens/MainScreens/course/SelectBatchScreen.dart';
 import 'package:dean/screens/MainScreens/widgets/PaymentMethodCard.dart';
 import 'package:dean/screens/MainScreens/widgets/Profilecard.dart';
 import 'package:dean/utilities/utility.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,25 +22,43 @@ class CoursedetailsScreen extends StatefulWidget {
 }
 
 class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
-  late VideoPlayerController _controller;
-  late bool _visibility = false;
+  // late VideoPlayerController _controller;
+  // late bool _visibility = false;
+
+  // bool allowScrubbing = true;
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   _controller = VideoPlayerController.network(
+  //       'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4')
+  //     ..initialize().then((_) {
+  //       _visibility = true;
+  //       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+
+  //       if (mounted) {
+  //         // check whether the state object is in tree
+  //         setState(() {
+  //           // make changes here
+  //         });
+  //       }
+  //     });
+  // }
+  late VideoPlayerController videoPlayerController;
+  late FlickManager flickManager;
   @override
   void initState() {
     super.initState();
+    flickManager = FlickManager(
+      videoPlayerController: VideoPlayerController.network(
+          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"),
+    );
+  }
 
-    _controller = VideoPlayerController.network(
-        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')
-      ..initialize().then((_) {
-        _visibility = true;
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-
-        if (mounted) {
-          // check whether the state object is in tree
-          setState(() {
-            // make changes here
-          });
-        }
-      });
+  @override
+  void dispose() {
+    flickManager.dispose();
+    super.dispose();
   }
 
   @override
@@ -99,41 +119,56 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
               InkWell(
                 onTap: () {
                   setState(() {
-                    _visibility = !_visibility;
+                    // _visibility = !_visibility;
                   });
                 },
                 child: Stack(
                   children: [
-                    _controller.value.isInitialized
-                        ? AspectRatio(
-                            aspectRatio: _controller.value.aspectRatio,
-                            child: VideoPlayer(_controller),
-                          )
-                        : Container(),
-                    Visibility(
-                      visible: _visibility,
-                      child: Center(
-                        child: Container(
-                          margin: EdgeInsets.only(top: 70.h),
-                          child: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _controller.value.isPlaying
-                                    ? _controller.pause()
-                                    : _controller.play();
-                              });
-                            },
-                            icon: Icon(
-                              _controller.value.isPlaying
-                                  ? Icons.pause
-                                  : Icons.play_arrow,
-                              color: Colors.white,
-                              size: 35.sp,
-                            ),
+                    flickManager != null
+                        ? FlickVideoPlayer(flickManager: flickManager)
+                        : Center(
+                            child: CircularProgressIndicator(),
                           ),
-                        ),
-                      ),
-                    )
+
+                    // Visibility(
+                    //   visible: _visibility,
+                    //   child: Center(
+                    //     child: Container(
+                    //       margin: EdgeInsets.only(top: 70.h),
+                    //       child: IconButton(
+                    //         onPressed: () {
+                    //           setState(() {
+                    //             _controller.value.isPlaying
+                    //                 ? _controller.pause()
+                    //                 : _controller.play();
+                    //           });
+                    //         },
+                    //         icon: Icon(
+                    //           _controller.value.isPlaying
+                    //               ? Icons.pause
+                    //               : Icons.play_arrow,
+                    //           color: Colors.white,
+                    //           size: 35.sp,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    // Positioned(
+                    //     // left: 0,
+                    //     bottom: 0,
+                    //     //you can use "right" and "bottom" too
+                    //     child: Container(
+                    //         width: MediaQuery.of(context).size.width,
+                    //         // color: Colors.purple,
+                    //         child: Visibility(
+                    //           visible: _visibility,
+                    //           child: VideoProgressIndicator(
+                    //             _controller,
+                    //             padding: EdgeInsets.all(2.0),
+                    //             allowScrubbing: allowScrubbing,
+                    //           ),
+                    //         ))),
                   ],
                 ),
               ),

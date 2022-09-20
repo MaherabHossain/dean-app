@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:dean/screens/MainScreens/course/SelectBatchScreen.dart';
+import 'package:dean/screens/MainScreens/explore/ExploreDetailsScreen.dart';
 import 'package:dean/screens/MainScreens/widgets/ExploreCourseCard.dart';
 import 'package:dean/screens/MainScreens/widgets/PaymentMethodCard.dart';
 import 'package:dean/screens/MainScreens/widgets/Profilecard.dart';
@@ -21,6 +22,7 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
+  late String search;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -84,6 +86,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextField(
+                      onSubmitted: ((value) {
+                        print(value);
+                      }),
+                      onChanged: (value) {
+                        setState(() {
+                          search = value;
+                        });
+                      },
                       cursorColor: Colors.black,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(20),
@@ -104,9 +114,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           fontSize: 12.sp,
                           color: Color.fromARGB(255, 141, 137, 137),
                         ),
-                        suffixIcon: Icon(
-                          Icons.search,
-                          color: Color.fromARGB(255, 141, 137, 137),
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            Get.to(ExploreDetailsScreen());
+                          },
+                          child: Icon(
+                            Icons.search,
+                            color: Color.fromARGB(255, 141, 137, 137),
+                          ),
                         ),
                       ),
                     ),

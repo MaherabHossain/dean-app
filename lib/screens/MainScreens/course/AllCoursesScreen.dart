@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables
 import 'dart:ui';
 
+import 'package:dean/screens/MainScreens/explore/ExploreScreen.dart';
 import 'package:dean/screens/MainScreens/widgets/Categories.dart';
 import 'package:dean/screens/MainScreens/widgets/CourseCard.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,11 +51,16 @@ class _AllCourseScreenState extends State<AllCourseScreen> {
                   SizedBox(
                     width: 170.w,
                   ),
-                  Icon(
-                    Icons.search,
-                    color: Colors.white,
-                    size: 20.sp,
-                  )
+                  InkWell(
+                    onTap: () {
+                      Get.to(ExploreScreen());
+                    },
+                    child: Icon(
+                      Icons.search,
+                      color: Colors.white,
+                      size: 20.sp,
+                    ),
+                  ),
                 ],
               ),
             ),
