@@ -50,9 +50,9 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
   void initState() {
     super.initState();
     flickManager = FlickManager(
-      videoPlayerController: VideoPlayerController.network(
-          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"),
-    );
+        videoPlayerController: VideoPlayerController.network(
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"),
+        autoPlay: false);
   }
 
   @override

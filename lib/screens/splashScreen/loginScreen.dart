@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables
 
+import 'package:dean/controllers/AuthController.dart';
 import 'package:dean/screens/MainScreens/course/AllCoursesScreen.dart';
 import 'package:dean/screens/MainScreens/HomePage.dart';
 import 'package:dean/screens/MainScreens/HomeScreen.dart';
@@ -18,6 +19,12 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool passVisibility = true;
+
+  late String email;
+  late String password;
+  // late String confPassword;
+
+  final authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -50,6 +57,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 5,
               ),
               TextField(
+                onChanged: ((value) {
+                  setState(() {
+                    email = value;
+                  });
+                }),
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
                   fillColor: Color.fromARGB(255, 216, 216, 216),
@@ -75,6 +87,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 5,
               ),
               TextField(
+                onChanged: ((value) {
+                  setState(() {
+                    password = value;
+                  });
+                }),
                 cursorColor: Colors.black,
                 obscureText: passVisibility,
                 decoration: InputDecoration(
@@ -122,16 +139,18 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 //height of button
                 width: width / 1.2,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Get.offAll(HomePage());
-                  },
-                  child: Text('Login'),
-                  style: ElevatedButton.styleFrom(
-                    primary: primaryColor, // background
-                    onPrimary: Colors.white, // foreground
-                  ),
-                ),
+                child: Obx(() {
+                  return ElevatedButton(
+                    onPressed: () {
+                      // Get.offAll(HomePage());
+                      // authController.createUser();
+                    },
+                    child: Text('Login ${authController.sayHello.value}'),
+                    style: ElevatedButton.styleFrom(
+                        // foreground
+                        ),
+                  );
+                }),
               ),
               SizedBox(
                 height: 15,

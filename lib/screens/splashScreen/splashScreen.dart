@@ -5,6 +5,7 @@ import 'package:dean/screens/splashScreen/registerScreen.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -26,10 +27,10 @@ class _SplashScreenState extends State<SplashScreen> {
           // ignore: prefer_const_literals_to_create_immutables
           children: [
             Container(
-              margin: EdgeInsets.only(top: height / 7),
+              margin: EdgeInsets.only(top: 100.h),
               child: Image(
                 image: AssetImage('assets/images/splashLogo.png'),
-                height: 400,
+                height: 400.h,
               ),
             ),
             SizedBox(

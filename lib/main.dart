@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:dean/screens/MainScreens/author/AuthorScreen.dart';
 import 'package:dean/screens/MainScreens/course/AllCoursesScreen.dart';
 import 'package:dean/screens/MainScreens/course/BootCampScreen.dart';
 import 'package:dean/screens/MainScreens/HomeScreen.dart';
 import 'package:dean/screens/MainScreens/course/CheckOutScreen.dart';
 import 'package:dean/screens/MainScreens/course/CourseDetailsScreen.dart';
+import 'package:dean/screens/MainScreens/course/CourseVideoScreen.dart';
 import 'package:dean/screens/MainScreens/course/MyCoursesScreen.dart';
 import 'package:dean/screens/MainScreens/course/SelectBatchScreen.dart';
 import 'package:dean/screens/MainScreens/explore/ExploreDetailsScreen.dart';
@@ -116,6 +118,14 @@ class _MyHomePageState extends State<MyHomePage> {
               GetPage(
                 name: '/explore-details',
                 page: () => ExploreDetailsScreen(),
+              ),
+              GetPage(
+                name: '/course-video',
+                page: () => CourseVideoScreen(),
+              ),
+              GetPage(
+                name: '/author',
+                page: () => AuthorScreen(),
               ),
 
               /// Dynamic route

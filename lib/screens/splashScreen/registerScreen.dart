@@ -1,9 +1,13 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables, unnecessary_null_comparison
 
+import 'package:dean/controllers/AuthController.dart';
 import 'package:dean/screens/splashScreen/loginScreen.dart';
+import 'package:dean/utilities/showToastMessage.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -13,7 +17,13 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final authController = Get.put(AuthController());
   bool passVisibility = true;
+  var name = "mayherab";
+  var email = "test203@gmail.com";
+  var password = "123456";
+  var confPassword = "123456";
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -42,7 +52,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 'Name',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
-              TextField(
+              TextFormField(
+                onChanged: ((value) {
+                  setState(() {
+                    name = value;
+                  });
+                }),
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
                   fillColor: Color.fromARGB(255, 216, 216, 216),
@@ -67,7 +82,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(
                 height: 5,
               ),
-              TextField(
+              TextFormField(
+                onChanged: ((value) {
+                  setState(() {
+                    email = value;
+                  });
+                }),
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
                   fillColor: Color.fromARGB(255, 216, 216, 216),
@@ -92,7 +112,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(
                 height: 5,
               ),
-              TextField(
+              TextFormField(
+                onChanged: ((value) {
+                  setState(() {
+                    password = value;
+                  });
+                }),
                 cursorColor: Colors.black,
                 obscureText: passVisibility,
                 decoration: InputDecoration(
@@ -120,19 +145,83 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               SizedBox(
+                height: 5,
+              ),
+              TextFormField(
+                onChanged: ((value) {
+                  setState(() {
+                    confPassword = value;
+                  });
+                }),
+                cursorColor: Colors.black,
+                obscureText: passVisibility,
+                decoration: InputDecoration(
+                  fillColor: Color.fromARGB(255, 216, 216, 216),
+                  filled: true,
+                  border: InputBorder.none,
+                  hintText: "Confirm your password",
+                  hintStyle: TextStyle(
+                      fontSize: 18.0, color: Color.fromARGB(255, 0, 0, 0)),
+                  prefixIcon: Icon(
+                    Icons.lock_outlined,
+                    color: primaryColor,
+                  ),
+                  suffixIcon: InkWell(
+                    onTap: () {
+                      setState(() {
+                        passVisibility = !passVisibility;
+                      });
+                    },
+                    child: Icon(
+                      passVisibility ? Icons.visibility_off : Icons.visibility,
+                      color: primaryColor,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
                 height: 10,
               ),
               SizedBox(
                 //height of button
                 width: width / 1.2,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: Text('Register'),
-                  style: ElevatedButton.styleFrom(
-                    primary: primaryColor, // background
-                    onPrimary: Colors.white, // foreground
-                  ),
-                ),
+                child: Obx(() {
+                  return ElevatedButton(
+                    onPressed: () async {
+                      if (name != null &&
+                          email.length > 0 &&
+                          password.length > 0 &&
+                          password == confPassword) {
+                        // print(name);
+                        // print(email);
+                        // print(password);
+                        // print(confPassword);
+                        List userInfo = [name, email, password];
+                        var response =
+                            await authController.createUser(userInfo);
+                        if (response['status'] == true) {
+                          showToastMessage(response['message']);
+                          Get.to(LoginScreen());
+                        } else {
+                          showToastMessage(response['message']);
+                        }
+                      } else {
+                        showToastMessage("All fields are required!");
+                      }
+                    },
+                    child: !authController.isLoadingCreateUser.value
+                        ? Text('Register ')
+                        : SizedBox(
+                            height: 20.h,
+                            width: 20.w,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            )),
+                    style: ElevatedButton.styleFrom(
+                        // foreground
+                        backgroundColor: deepPrimaryColor),
+                  );
+                }),
               ),
               SizedBox(
                 height: 15,
