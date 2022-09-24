@@ -7,10 +7,12 @@ import 'package:dean/screens/MainScreens/HomeScreen.dart';
 import 'package:dean/screens/MainScreens/course/MyCoursesScreen.dart';
 import 'package:dean/screens/MainScreens/profile/profile.dart';
 import 'package:dean/screens/MainScreens/profile/profileScreen.dart';
+import 'package:dean/screens/splashScreen/splashScreen.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,13 +22,50 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _pages = [
+  var token;
+
+  var _pages = [
     HomeScreen(),
     AllCourseScreen(),
     BootCampSceen(),
     MyCourcesScreen(),
-    ProfileScreen(),
+    ProfileScreen()
   ];
+  bool loading = true;
+  getToken() async {
+    // print("hello");
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      token = prefs.getString("token");
+      _pages = [
+        HomeScreen(),
+        AllCourseScreen(),
+        BootCampSceen(),
+        MyCourcesScreen(),
+        token != null ? ProfileScreen() : SplashScreen(),
+      ];
+    });
+    // print(token);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    // print("state init");
+    getToken();
+    setState(() {
+      loading = false;
+    });
+
+    if (token != null) {
+      // print("token is not null");
+    } else {
+      // print("token is  null");
+    }
+    super.initState();
+  }
+
   var initialPage = 0;
   @override
   Widget build(BuildContext context) {
@@ -60,7 +99,7 @@ class _HomePageState extends State<HomePage> {
             label: 'My Cources',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: InkWell(child: Icon(Icons.person)),
             label: 'Profile',
           ),
         ],

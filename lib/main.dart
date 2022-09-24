@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:dean/screens/MainScreens/HomePage.dart';
 import 'package:dean/screens/MainScreens/author/AuthorScreen.dart';
 import 'package:dean/screens/MainScreens/course/AllCoursesScreen.dart';
 import 'package:dean/screens/MainScreens/course/BootCampScreen.dart';
@@ -53,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
       designSize: const Size(360, 690),
       builder: ((context, child) => GetMaterialApp(
             debugShowCheckedModeBanner: false,
-            home: SplashScreen(),
+            home: HomePage(),
             getPages: [
               GetPage(
                 name: '/splash',
@@ -86,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 page: () => ProfileScreen(),
               ),
 
-              /// Dynamic route
+              //Dynamic route
               GetPage(
                 name: '/edit-profile',
                 page: () => EditProfileScreen(),
@@ -99,10 +100,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 name: '/transaction-history',
                 page: () => TransactionScreen(),
               ),
-              GetPage(
-                name: '/course-details',
-                page: () => CoursedetailsScreen(),
-              ),
+              // GetPage(
+              //   name: '/course-details',
+              //   page: () => CoursedetailsScreen(),
+              // ),
               GetPage(
                 name: '/select-batch',
                 page: () => SelectBatchScreen(),

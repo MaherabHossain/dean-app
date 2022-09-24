@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_propertietos_last, sort_child_properties_last
 
+import 'package:dean/screens/MainScreens/HomePage.dart';
+import 'package:dean/screens/MainScreens/HomeScreen.dart';
 import 'package:dean/screens/splashScreen/loginScreen.dart';
 import 'package:dean/screens/splashScreen/registerScreen.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -22,6 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     var width = size.width;
 
     return Scaffold(
+      // bottomNavigationBar: Container(),
       body: Center(
         child: Column(
           // ignore: prefer_const_literals_to_create_immutables

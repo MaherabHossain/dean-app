@@ -19,10 +19,10 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final authController = Get.put(AuthController());
   bool passVisibility = true;
-  var name = "mayherab";
-  var email = "test203@gmail.com";
-  var password = "123456";
-  var confPassword = "123456";
+  var name;
+  var email;
+  var password;
+  var confPassword;
 
   @override
   Widget build(BuildContext context) {
@@ -189,8 +189,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   return ElevatedButton(
                     onPressed: () async {
                       if (name != null &&
-                          email.length > 0 &&
-                          password.length > 0 &&
+                          email != null &&
+                          password != null &&
                           password == confPassword) {
                         // print(name);
                         // print(email);
@@ -216,7 +216,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             width: 20.w,
                             child: CircularProgressIndicator(
                               color: Colors.white,
-                            )),
+                            ),
+                          ),
                     style: ElevatedButton.styleFrom(
                         // foreground
                         backgroundColor: deepPrimaryColor),

@@ -1,10 +1,12 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, invalid_use_of_protected_member
 
+import 'package:dean/controllers/AuthController.dart';
 import 'package:dean/screens/MainScreens/widgets/Profilecard.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -14,6 +16,26 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  AuthController authController = Get.put(AuthController());
+  List<String>? userInfo;
+  getUserinfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    userInfo = prefs.getStringList("userInfo");
+    print("from profile screen");
+    // {name,email,provider,mobile,address,image,gender,phoneNo,creditLimit}
+    authController.userInfo.add(userInfo);
+    // print(userInfo?[0]);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getUserinfo();
+    // print(authController.userInfo);
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -61,9 +83,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Color.fromARGB(255, 168, 69, 69),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(
-                          Icons.logout,
-                          color: Colors.white,
+                        child: InkWell(
+                          onTap: () async {
+                            // final prefs = await SharedPreferences.getInstance();
+                            // final success = await prefs.remove('token');
+                            // if (success) {
+                            //   print("Logout successfully");
+                            // } else {
+                            //   print("Hello");
+                            // }
+                          },
+                          child: Obx(() => InkWell(
+                                onTap: () {
+                                  print(authController.isLoadingLogout.value);
+                                  authController.logOut();
+                                },
+                                child: !authController.isLoadingLogout.value
+                                    ? Icon(
+                                        Icons.logout,
+                                        color: Colors.white,
+                                      )
+                                    : CircularProgressIndicator(
+                                        color: Colors.white,
+                                      ),
+                              )),
                         ),
                       ),
                     ),
@@ -93,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Maherab hossain",
+                                    userInfo?[0] ?? "",
                                     style: TextStyle(
                                       fontSize: 17.sp,
                                       color: Colors.white,
@@ -116,7 +159,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "maherabhossain10@gmail.com",
+                                    userInfo?[1] ?? "",
                                     style: TextStyle(
                                       fontSize: 12.sp,
                                       color: Colors.white,

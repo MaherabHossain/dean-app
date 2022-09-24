@@ -28,7 +28,7 @@ class _ProfileState extends State<Profile> {
                 case '/edit-profile':
                   return EditProfileScreen();
                 case '/payment-method':
-                  return EditProfileScreen();
+                // return EditProfileScreen();
               }
               return ProfileScreen();
             });

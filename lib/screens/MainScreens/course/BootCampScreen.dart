@@ -36,18 +36,36 @@ class _BootCampSceenState extends State<BootCampSceen> {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, mainAxisExtent: 180, crossAxisSpacing: 10),
       children: [
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
-        CourseCard(),
+        CourseCard(
+          id: 1,
+        ),
+        CourseCard(
+          id: 1,
+        ),
+        CourseCard(
+          id: 1,
+        ),
+        CourseCard(
+          id: 1,
+        ),
+        CourseCard(
+          id: 1,
+        ),
+        CourseCard(
+          id: 1,
+        ),
+        CourseCard(
+          id: 1,
+        ),
+        CourseCard(
+          id: 1,
+        ),
+        CourseCard(
+          id: 1,
+        ),
+        CourseCard(
+          id: 1,
+        ),
       ],
     );
     return SafeArea(
@@ -133,11 +151,11 @@ class _BootCampSceenState extends State<BootCampSceen> {
                   for (int i = 0; i < 10; i += 2)
                     Row(
                       children: [
-                        CourseCard(),
+                        CourseCard(id: 1),
                         SizedBox(
                           width: 10.w,
                         ),
-                        CourseCard(),
+                        CourseCard(id: 1),
                       ],
                     )
                 ],

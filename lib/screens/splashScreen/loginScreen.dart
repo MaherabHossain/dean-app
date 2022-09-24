@@ -6,9 +6,11 @@ import 'package:dean/screens/MainScreens/HomePage.dart';
 import 'package:dean/screens/MainScreens/HomeScreen.dart';
 import 'package:dean/screens/splashScreen/forgotPasswordScreen.dart';
 import 'package:dean/screens/splashScreen/registerScreen.dart';
+import 'package:dean/utilities/showToastMessage.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -20,8 +22,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool passVisibility = true;
 
-  late String email;
-  late String password;
+  var email;
+  var password;
   // late String confPassword;
 
   final authController = Get.put(AuthController());
@@ -141,14 +143,28 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: width / 1.2,
                 child: Obx(() {
                   return ElevatedButton(
-                    onPressed: () {
-                      // Get.offAll(HomePage());
-                      // authController.createUser();
+                    onPressed: () async {
+                      if (email != null && password != null) {
+                        List userCredential = [email, password];
+                        var response =
+                            await authController.login(userCredential);
+                      } else {
+                        showToastMessage("All fields are required!");
+                      }
                     },
-                    child: Text('Login ${authController.sayHello.value}'),
+                    child: !authController.isLoadingCreateUser.value
+                        ? Text('Login ')
+                        : SizedBox(
+                            height: 20.h,
+                            width: 20.w,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          ),
                     style: ElevatedButton.styleFrom(
-                        // foreground
-                        ),
+                      // foreground
+                      backgroundColor: deepPrimaryColor,
+                    ),
                   );
                 }),
               ),

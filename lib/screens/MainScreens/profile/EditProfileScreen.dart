@@ -1,13 +1,18 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
+import 'package:dean/controllers/AuthController.dart';
 import 'package:dean/screens/MainScreens/widgets/Profilecard.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+  // String name, email, phone, address;
+  const EditProfileScreen({
+    super.key,
+  });
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -16,9 +21,31 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  List<String>? userInfo;
+  String name = "", email = "", phone = "", address = "";
+
+  getUserinfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    userInfo = prefs.getStringList("userInfo");
+
+    print("from profile edit screen");
+    // {name,email,provider,mobile,address,image,gender,phoneNo,creditLimit}
+    print(userInfo?[0]);
+
+    setState(() {
+      name = userInfo?[0] ?? "";
+      email = userInfo?[1] ?? "";
+      phone = userInfo?[3] ?? "";
+      address = userInfo?[4] ?? "";
+    });
+    print("dfs");
+    print(name);
+  }
 
   @override
   void initState() {
+    // getUserinfo();
+
     super.initState();
     _controller = AnimationController(vsync: this);
   }
@@ -31,10 +58,9 @@ class _EditProfileScreenState extends State<EditProfileScreen>
 
   @override
   Widget build(BuildContext context) {
-    String name = "Maherab Hossain";
-    String email = "maherabhossain10@gmail.com";
-    String phone = "01618595137";
-    String address = "Dhaka,Bangladesh";
+    AuthController authController = Get.put(AuthController());
+    print("From edit");
+    print(authController.userInfo[0]);
     return SafeArea(
       child: Scaffold(
         backgroundColor: deepPrimaryColor,
@@ -112,7 +138,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Maherab hossain",
+                                    authController.userInfo[0][0],
                                     style: TextStyle(
                                       fontSize: 17.sp,
                                       color: Colors.white,
@@ -135,7 +161,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "maherabhossain10@gmail.com",
+                                    authController.userInfo[0][1],
                                     style: TextStyle(
                                       fontSize: 12.sp,
                                       color: Colors.white,
@@ -201,7 +227,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
                 Container(
                   margin: EdgeInsets.only(bottom: 10.h),
                   child: TextFormField(
-                    initialValue: name,
+                    initialValue: authController.userInfo[0][0],
                     cursorColor: Color.fromARGB(255, 141, 137, 137),
                     style: TextStyle(color: Color.fromARGB(255, 141, 137, 137)),
                     decoration: InputDecoration(
@@ -229,7 +255,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
                 Container(
                   margin: EdgeInsets.only(bottom: 10.h),
                   child: TextFormField(
-                    initialValue: email,
+                    initialValue: authController.userInfo[0][1],
                     cursorColor: Color.fromARGB(255, 141, 137, 137),
                     style: TextStyle(color: Color.fromARGB(255, 141, 137, 137)),
                     decoration: InputDecoration(
@@ -257,7 +283,9 @@ class _EditProfileScreenState extends State<EditProfileScreen>
                 Container(
                   margin: EdgeInsets.only(bottom: 10.h),
                   child: TextFormField(
-                    initialValue: phone,
+                    initialValue: authController.userInfo[0][3] == "null"
+                        ? ""
+                        : authController.userInfo[0][3],
                     cursorColor: Color.fromARGB(255, 141, 137, 137),
                     style: TextStyle(color: Color.fromARGB(255, 141, 137, 137)),
                     decoration: InputDecoration(
@@ -285,7 +313,9 @@ class _EditProfileScreenState extends State<EditProfileScreen>
                 Container(
                   margin: EdgeInsets.only(bottom: 10.h),
                   child: TextFormField(
-                    initialValue: address,
+                    initialValue: authController.userInfo[0][4] == "null"
+                        ? ""
+                        : authController.userInfo[0][4],
                     cursorColor: Color.fromARGB(255, 141, 137, 137),
                     style: TextStyle(color: Color.fromARGB(255, 141, 137, 137)),
                     decoration: InputDecoration(
