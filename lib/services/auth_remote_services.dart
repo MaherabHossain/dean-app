@@ -123,7 +123,7 @@ class AuthRemoteServices {
       // something wrong
       data = {"status": false, "message": "Something went wrong! try again"};
     }
-    return null;
+    return data;
   }
 
   static logOut() async {
@@ -173,6 +173,52 @@ class AuthRemoteServices {
       "status": false,
       "message": "Something went wrong 2",
     };
+    return data;
+  }
+
+  static updateUser(userInfo) async {
+    String message = "";
+    Map data = {};
+    String url = baseUrl + "/profile-update";
+    final prefs = await SharedPreferences.getInstance();
+    var _token = prefs.getString("token");
+    String token = "Bearer " + _token!;
+    var response = await client.post(Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          "Accept": "application/json",
+          "Authorization": token,
+        },
+        body: jsonEncode(userInfo));
+    var jsonString = response.body;
+
+    var jsonData;
+    try {
+      jsonData = jsonDecode(jsonString);
+    } catch (e) {
+      jsonData = [];
+      data = {
+        "status": false,
+        "message": "Something went wrong",
+      };
+    }
+    // print(jsonData['data']);
+    if (response.statusCode == 200) {
+      // all ok
+      print("from ok");
+      if (jsonData['data'] != null) {
+        // print(jsonData['data']['user']);
+        data = {
+          "status": true,
+          "message": "Profile updated Successfull!",
+          "user": jsonData['data']['user'],
+        };
+        return data;
+      }
+    } else {
+      // something wrong
+      data = {"status": false, "message": "Something went wrong! try again"};
+    }
     return data;
   }
 }

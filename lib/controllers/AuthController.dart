@@ -3,6 +3,7 @@
 import 'package:dean/models/User.dart';
 import 'package:dean/screens/MainScreens/HomePage.dart';
 import 'package:dean/screens/MainScreens/HomeScreen.dart';
+import 'package:dean/screens/MainScreens/profile/profile.dart';
 import 'package:dean/services/auth_remote_services.dart';
 import 'package:dean/utilities/showToastMessage.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ class AuthController extends GetxController {
   var isLoadingCreateUser = false.obs;
   var isLoadingLogin = false.obs;
   var isLoadingLogout = false.obs;
+  var isLoading = false.obs;
   var userInfo = [].obs;
 
   createUser(userInfo) async {
@@ -58,9 +60,44 @@ class AuthController extends GetxController {
     isLoadingLogout.value = false;
     print(response['status']);
     if (response['status']) {
+      userInfo.clear();
       // Get.to(HomePage());
       Get.offAll(HomePage());
       showToastMessage(response['message']);
+    } else {
+      showToastMessage(response['message']);
+    }
+  }
+
+  updateUser(userData) async {
+    isLoading.value = true;
+    var response = await AuthRemoteServices.updateUser(userData);
+    isLoading.value = false;
+    if (response['status']) {
+      print(response['user']);
+      User user = User.fromJson(response['user']);
+      final prefs = await SharedPreferences.getInstance();
+      // await prefs.setString("token", response['access']['token']);
+      // {name,email,provider,mobile,address,image,gender,phoneNo,creditLimit}
+      // prefs.remove("userInfo");
+      userInfo.clear();
+      await prefs.setStringList("userInfo", [
+        user.name,
+        user.email,
+        user.provider ?? "null",
+        user.mobile ?? "null",
+        user.address ?? "null",
+        user.image ?? "null",
+        user.gender ?? "null",
+        user.phoneNo ?? "null",
+        user.creditLimit ?? "null"
+      ]);
+      print("debug");
+      var temp = prefs.getStringList("userInfo");
+      print(temp);
+      // userInfo.add(response['user']);
+      showToastMessage(response['message']);
+      Get.offAll(HomePage());
     } else {
       showToastMessage(response['message']);
     }

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, invalid_use_of_protected_member
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, invalid_use_of_protected_member, unnecessary_null_comparison
 
 import 'package:dean/controllers/AuthController.dart';
 import 'package:dean/screens/MainScreens/widgets/Profilecard.dart';
@@ -17,13 +17,28 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   AuthController authController = Get.put(AuthController());
-  List<String>? userInfo;
+  var userInfo;
   getUserinfo() async {
     final prefs = await SharedPreferences.getInstance();
     userInfo = prefs.getStringList("userInfo");
+    print(userInfo);
     print("from profile screen");
     // {name,email,provider,mobile,address,image,gender,phoneNo,creditLimit}
-    authController.userInfo.add(userInfo);
+
+    if (authController.userInfo.isEmpty) {
+      print("auth controller is nulld");
+      authController.userInfo.add(userInfo);
+      if (authController.userInfo == null) {
+        print("aslo null");
+      } else {
+        print("hurr");
+        print(authController.userInfo);
+      }
+    } else {
+      print("auth controller is not null");
+      print(authController.userInfo);
+      print(authController.userInfo.length);
+    }
     // print(userInfo?[0]);
     setState(() {});
   }
@@ -208,11 +223,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         borderRadius: BorderRadius.circular(50), // Image border
                         child: SizedBox.fromSize(
                           // size: Size.fromRadius(48), // Image radius
-                          child: Image.network(
-                            'https://www.filepicker.io/api/file/sXz6u6kMQzK9uXkCwtPv',
-                            fit: BoxFit.cover,
-                            height: 83.23.h,
-                            width: 83.23.h,
+                          child: Container(
+                            color: Colors.white,
+                            child: Image.asset(
+                              'assets/images/userIcon.png',
+                              fit: BoxFit.contain,
+                              height: 83.23.h,
+                              width: 83.23.h,
+                            ),
                           ),
                         ),
                       ),
