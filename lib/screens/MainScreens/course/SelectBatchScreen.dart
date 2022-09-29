@@ -1,86 +1,43 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, unused_element, avoid_init_to_null
 
 import 'dart:async';
 
+import 'package:dean/controllers/CourseController.dart';
+import 'package:dean/screens/MainScreens/course/CartScreen.dart';
 import 'package:dean/screens/MainScreens/course/CheckOutScreen.dart';
 import 'package:dean/screens/MainScreens/widgets/PaymentMethodCard.dart';
 import 'package:dean/screens/MainScreens/widgets/Profilecard.dart';
+import 'package:dean/screens/splashScreen/splashScreen.dart';
+import 'package:dean/utilities/showToastMessage.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 class SelectBatchScreen extends StatefulWidget {
-  const SelectBatchScreen({super.key});
+  var batchDetails;
+  var id;
+  var courseId;
+  SelectBatchScreen(
+      {super.key, required this.batchDetails, required this.id, this.courseId});
 
   @override
-  State<SelectBatchScreen> createState() => _SelectBatchScreenState();
+  State<SelectBatchScreen> createState() =>
+      _SelectBatchScreenState(batchDetails: batchDetails);
 }
 
 class _SelectBatchScreenState extends State<SelectBatchScreen> {
-  late VideoPlayerController _controller;
-  late bool _visibility = false;
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = VideoPlayerController.network(
-        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')
-      ..initialize().then((_) {
-        _visibility = true;
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
-  }
-
-  List<dynamic> batches = [
-    {
-      "day": "Sat-Sun",
-      "time": "Time 9 am - 5 pm",
-      "date": "23 Aug",
-      "isSelect": false
-    },
-    {
-      "day": "Sat-Sun",
-      "time": "Time 9 am - 5 pm",
-      "date": "23 Aug",
-      "isSelect": false
-    },
-    {
-      "day": "Sat-Sun",
-      "time": "Time 9 am - 5 pm",
-      "date": "23 Aug",
-      "isSelect": false
-    },
-    {
-      "day": "Sat-Sun",
-      "time": "Time 9 am - 5 pm",
-      "date": "23 Aug",
-      "isSelect": false
-    },
-    {
-      "day": "Sat-Sun",
-      "time": "Time 9 am - 5 pm",
-      "date": "23 Aug",
-      "isSelect": false
-    },
-    {
-      "day": "Sat-Sun",
-      "time": "Time 9 am - 5 pm",
-      "date": "23 Aug",
-      "isSelect": false
-    },
-    {
-      "day": "Sat-Sun",
-      "time": "Time 9 am - 5 pm",
-      "date": "23 Aug",
-      "isSelect": false
-    },
-  ];
+  var batchDetails;
+  _SelectBatchScreenState({this.batchDetails});
+  final courseController = Get.put(CourseController());
+  var batchId = null;
   @override
   Widget build(BuildContext context) {
+    print("LOG::: Select batches..");
+    print(widget.courseId);
     return SafeArea(
         child: Scaffold(
       backgroundColor: Colors.white,
@@ -150,21 +107,19 @@ class _SelectBatchScreenState extends State<SelectBatchScreen> {
                           borderRadius: BorderRadius.circular(10.0),
                           child: Image(
                             image: NetworkImage(
-                                "https://www.filepicker.io/api/file/sXz6u6kMQzK9uXkCwtPv"),
+                                // ignore: prefer_interpolation_to_compose_strings
+                                'https://www.deanny.org' +
+                                    courseController.courseList[widget.id]
+                                        ['image']),
                             height: 55.h,
                           ),
                         ),
                         title: Text(
-                          "Python Advance Course ",
+                          courseController.courseList[widget.id]['title'],
                           style: TextStyle(
                               fontSize: 14.sp,
                               color: Color.fromARGB(255, 0, 0, 0),
                               fontWeight: FontWeight.w600),
-                        ),
-                        subtitle: Text(
-                          "Batch selected: I will select laterss",
-                          style:
-                              TextStyle(color: Color.fromARGB(255, 59, 58, 58)),
                         ),
                       ),
                       Divider(
@@ -175,173 +130,299 @@ class _SelectBatchScreenState extends State<SelectBatchScreen> {
                           top: 40.h,
                         ),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            for (int i = 0; i < batches.length - 1; i += 2)
-                              Row(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        batches[i]['isSelect'] =
-                                            !batches[i]['isSelect'];
-                                      });
-                                      for (int j = 0; j < batches.length; ++j) {
-                                        if (i != j) {
-                                          batches[j]['isSelect'] = false;
+                            for (int i = 0; i < batchDetails.length; i += 2)
+                              if (batchDetails.length % 2 != 0 &&
+                                  i == batchDetails.length - 1)
+                                Row(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          batchId = batchDetails[i]['id'];
+                                          batchDetails[i]['isSelect'] =
+                                              !batchDetails[i]['isSelect'];
+                                        });
+                                        for (int j = 0;
+                                            j < batchDetails.length;
+                                            ++j) {
+                                          if (i != j) {
+                                            batchDetails[j]['isSelect'] = false;
+                                          }
                                         }
-                                      }
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.only(
-                                          left: 16,
-                                          top: 14,
-                                          bottom: 22,
-                                          right: 16),
-                                      margin: EdgeInsets.only(bottom: 30.h),
-                                      width: MediaQuery.of(context).size.width /
-                                          2.5,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: batches[i]['isSelect']
-                                                ? Color.fromARGB(
-                                                    255, 228, 181, 26)
-                                                : Colors.black),
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: batches[i]['isSelect']
-                                            ? Color.fromARGB(255, 228, 181, 26)
-                                            : Color.fromARGB(
-                                                255, 255, 255, 255),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                batches[i]['day'],
-                                                style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: batches[i]['isSelect']
-                                                      ? Colors.white
-                                                      : Colors.black,
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.only(
+                                            left: 16,
+                                            top: 14,
+                                            bottom: 22,
+                                            right: 16),
+                                        margin: EdgeInsets.only(bottom: 30.h),
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.5,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: batchDetails[i]['isSelect']
+                                                  ? Color.fromARGB(
+                                                      255, 228, 181, 26)
+                                                  : Colors.black),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          color: batchDetails[i]['isSelect']
+                                              ? Color.fromARGB(
+                                                  255, 228, 181, 26)
+                                              : Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  batchDetails[i]['days']
+                                                      .substring(0, 9),
+                                                  style: TextStyle(
+                                                    fontSize: 10.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: batchDetails[i]
+                                                            ['isSelect']
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                  ),
                                                 ),
-                                              ),
-                                              Text(
-                                                batches[i]['date'],
-                                                style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  color: batches[i]['isSelect']
-                                                      ? Colors.white
-                                                      : Colors.black,
+                                                Text(
+                                                  batchDetails[i]['start_date'],
+                                                  style: TextStyle(
+                                                    fontSize: 12.sp,
+                                                    color: batchDetails[i]
+                                                            ['isSelect']
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 5.h,
-                                          ),
-                                          Text(
-                                            batches[i]['time'],
-                                            style: TextStyle(
-                                              fontSize: 12.sp,
-                                              color: batches[i]['isSelect']
-                                                  ? Colors.white
-                                                  : Colors.black,
+                                              ],
                                             ),
-                                          )
-                                        ],
+                                            SizedBox(
+                                              height: 5.h,
+                                            ),
+                                            Text(
+                                              batchDetails[i]['start_at'],
+                                              style: TextStyle(
+                                                fontSize: 12.sp,
+                                                color: batchDetails[i]
+                                                        ['isSelect']
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 20.h,
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        batches[i + 1]['isSelect'] =
-                                            !batches[i + 1]['isSelect'];
-                                      });
-                                      for (int j = 0; j < batches.length; ++j) {
-                                        if (i + 1 != j) {
-                                          batches[j]['isSelect'] = false;
+                                  ],
+                                )
+                              else
+                                Row(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        batchId = batchDetails[i]['id'];
+                                        setState(() {
+                                          batchDetails[i]['isSelect'] =
+                                              !batchDetails[i]['isSelect'];
+                                        });
+                                        for (int j = 0;
+                                            j < batchDetails.length;
+                                            ++j) {
+                                          if (i != j) {
+                                            batchDetails[j]['isSelect'] = false;
+                                          }
                                         }
-                                      }
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.only(
-                                          left: 16,
-                                          top: 14,
-                                          bottom: 22,
-                                          right: 16),
-                                      margin: EdgeInsets.only(bottom: 30.h),
-                                      width: MediaQuery.of(context).size.width /
-                                          2.5,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: batches[i + 1]['isSelect']
-                                                ? Color.fromARGB(
-                                                    255, 228, 181, 26)
-                                                : Colors.black),
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: batches[i + 1]['isSelect']
-                                            ? Color.fromARGB(255, 228, 181, 26)
-                                            : Colors.white,
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                batches[i + 1]['day'],
-                                                style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: batches[i + 1]
-                                                          ['isSelect']
-                                                      ? Colors.white
-                                                      : Colors.black,
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.only(
+                                            left: 16,
+                                            top: 14,
+                                            bottom: 22,
+                                            right: 16),
+                                        margin: EdgeInsets.only(bottom: 30.h),
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.5,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: batchDetails[i]['isSelect']
+                                                  ? Color.fromARGB(
+                                                      255, 228, 181, 26)
+                                                  : Colors.black),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          color: batchDetails[i]['isSelect']
+                                              ? Color.fromARGB(
+                                                  255, 228, 181, 26)
+                                              : Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  batchDetails[i]['days']
+                                                      .substring(0, 9),
+                                                  style: TextStyle(
+                                                    fontSize: 10.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: batchDetails[i]
+                                                            ['isSelect']
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                  ),
                                                 ),
-                                              ),
-                                              Text(
-                                                batches[i + 1]['date'],
-                                                style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  color: batches[i + 1]
-                                                          ['isSelect']
-                                                      ? Colors.white
-                                                      : Colors.black,
+                                                Text(
+                                                  batchDetails[i]['start_date'],
+                                                  style: TextStyle(
+                                                    fontSize: 12.sp,
+                                                    color: batchDetails[i]
+                                                            ['isSelect']
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 5.h,
-                                          ),
-                                          Text(
-                                            batches[i + 1]['time'],
-                                            style: TextStyle(
-                                              fontSize: 12.sp,
-                                              color: batches[i + 1]['isSelect']
-                                                  ? Colors.white
-                                                  : Colors.black,
+                                              ],
                                             ),
-                                          )
-                                        ],
+                                            SizedBox(
+                                              height: 5.h,
+                                            ),
+                                            Text(
+                                              batchDetails[i]['start_at'],
+                                              style: TextStyle(
+                                                fontSize: 12.sp,
+                                                color: batchDetails[i]
+                                                        ['isSelect']
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        batchId = batchDetails[i + 1]['id'];
+                                        setState(() {
+                                          batchDetails[i + 1]['isSelect'] =
+                                              !batchDetails[i + 1]['isSelect'];
+                                        });
+                                        for (int j = 0;
+                                            j < batchDetails.length;
+                                            ++j) {
+                                          if (i + 1 != j) {
+                                            batchDetails[j]['isSelect'] = false;
+                                          }
+                                        }
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.only(
+                                            left: 16,
+                                            top: 14,
+                                            bottom: 22,
+                                            right: 16),
+                                        margin: EdgeInsets.only(bottom: 30.h),
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.5,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: batchDetails[i + 1]
+                                                      ['isSelect']
+                                                  ? Color.fromARGB(
+                                                      255, 228, 181, 26)
+                                                  : Colors.black),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          color: batchDetails[i + 1]['isSelect']
+                                              ? Color.fromARGB(
+                                                  255, 228, 181, 26)
+                                              : Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  batchDetails[i + 1]['days']
+                                                      .substring(0, 9),
+                                                  style: TextStyle(
+                                                    fontSize: 10.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: batchDetails[i + 1]
+                                                            ['isSelect']
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  batchDetails[i + 1]
+                                                      ['start_date'],
+                                                  style: TextStyle(
+                                                    fontSize: 12.sp,
+                                                    color: batchDetails[i + 1]
+                                                            ['isSelect']
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 5.h,
+                                            ),
+                                            Text(
+                                              batchDetails[i + 1]['start_at'],
+                                              style: TextStyle(
+                                                fontSize: 12.sp,
+                                                color: batchDetails[i + 1]
+                                                        ['isSelect']
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                            // Row(
+                            //   children: [
+
+                            //     SizedBox(
+                            //       width: 20.h,
+                            //     ),
+                            //   ],
+                            // ),
                             SizedBox(
                               height: 17.h,
                             ),
@@ -431,8 +512,111 @@ class _SelectBatchScreenState extends State<SelectBatchScreen> {
                     Container(
                       width: MediaQuery.of(context).size.width / 2,
                       child: InkWell(
-                        onTap: () {
-                          Get.to(CheckOutScreen());
+                        onTap: () async {
+                          if (batchId == null) {
+                            showToastMessage("please select a batch!");
+                            return;
+                          }
+                          var prefs = await SharedPreferences.getInstance();
+                          var _token = prefs.getString("token");
+                          courseController.cart
+                              .add(courseController.courseList[widget.id]);
+                          // prefs.remove('cart');
+                          // prefs.remove('batch');
+                          // prefs.remove('cartIndex');
+                          // prefs.remove('batchIndex');
+                          // print("data removed");
+                          // return;
+                          List<String>? cart = prefs.getStringList("cart");
+                          List<String>? cartIn =
+                              prefs.getStringList("cartIndex");
+                          List<String>? batchIn =
+                              prefs.getStringList("batchIndex");
+                          cart != null
+                              ? print("cart not null")
+                              : print("cart null");
+
+                          cartIn != null
+                              ? print("cartIn not null")
+                              : print("cartIn null");
+                          batchIn != null
+                              ? print("batchIn not null")
+                              : print("batchIn null");
+
+                          // return;
+                          if (cart == null &&
+                              cartIn == null &&
+                              batchIn == null) {
+                            print("come here");
+                            // prefs.setStringList('cart', stringList);
+                            List<String> cartString = [];
+                            List<String> batchString = [];
+                            List<String> cartIndex = [];
+                            List<String> batchIndex = [];
+                            cartString.add(courseController
+                                .courseList[widget.id]['id']
+                                .toString());
+                            batchString.add(courseController
+                                .courseList[widget.id]['id']
+                                .toString());
+                            cartIndex.add(widget.id.toString());
+                            batchIndex.add(widget.id.toString());
+
+                            prefs.setStringList("cart", cartString);
+                            prefs.setStringList("batch", batchString);
+                            prefs.setStringList("cartIndex", cartIndex);
+                            prefs.setStringList("batchIndex", batchIndex);
+                            List<String>? cartTemp =
+                                prefs.getStringList("cart");
+                            List<String>? batchTemp =
+                                prefs.getStringList("batch");
+                            print("LOG::: test cart 2");
+                            print("LOG::: cart");
+                            print(cartTemp);
+                            print("LOG::: batch");
+                            print(batchTemp);
+                          } else {
+                            print("come here 2");
+                            List<String>? cartString = cart;
+                            cartString?.add(courseController
+                                .courseList[widget.id]['id']
+                                .toString());
+
+                            List<String>? cartIndex = cartIn;
+                            cartIndex?.add(widget.id.toString());
+                            List<String>? batchIndex = batchIn;
+                            batchIndex?.add(batchId.toString());
+                            prefs.setStringList("batchIndex", batchIndex!);
+
+                            prefs.setStringList("cartIndex", cartIndex!);
+                            prefs.setStringList("cart", cartString!);
+                            List<String>? cartTemp =
+                                prefs.getStringList("cart");
+                            List<String>? _cartIn =
+                                prefs.getStringList("cartIndex");
+                            List<String>? _batchIn =
+                                prefs.getStringList("batchIndex");
+                            List<String>? _batch = prefs.getStringList("batch");
+                            // print("LOG::: test cart");
+                            // print("LOG::: cart");
+                            // print(cartTemp);
+                            // //   cart -> server
+                            // // cartIndex -> local
+                            // // batchIndex -> server
+                            // print("LOG::: cart index");
+                            // print(_cartIn);
+                            // print("LOG::: batch index");
+                            // print(_batchIn);
+                            // print("LOG::: batch index local");
+                            // print(_batch);
+                          }
+                          if (_token != null) {
+                            Get.to(CartScreen());
+                          } else {
+                            Get.to(SplashScreen());
+                            print("LOG::: your are not logged in");
+                          }
+                          // Get.to(CheckOutScreen());
                         },
                         child: Center(
                           child: Text(

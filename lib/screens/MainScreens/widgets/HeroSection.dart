@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables
 
+import 'package:dean/screens/MainScreens/course/CartScreen.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class HeroSection extends StatefulWidget {
   const HeroSection({Key? key}) : super(key: key);
@@ -88,7 +90,7 @@ class _HeroSectionState extends State<HeroSection> {
                 ),
                 InkWell(
                   onTap: () {
-                    // Get.back();
+                    Get.to(CartScreen());
                   },
                   child: Container(
                     padding: EdgeInsets.all(7),

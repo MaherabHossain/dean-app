@@ -74,7 +74,6 @@ class AuthController extends GetxController {
     var response = await AuthRemoteServices.updateUser(userData);
     isLoading.value = false;
     if (response['status']) {
-      print(response['user']);
       User user = User.fromJson(response['user']);
       final prefs = await SharedPreferences.getInstance();
       // await prefs.setString("token", response['access']['token']);
@@ -92,10 +91,7 @@ class AuthController extends GetxController {
         user.phoneNo ?? "null",
         user.creditLimit ?? "null"
       ]);
-      print("debug");
-      var temp = prefs.getStringList("userInfo");
-      print(temp);
-      // userInfo.add(response['user']);
+
       showToastMessage(response['message']);
       Get.offAll(HomePage());
     } else {

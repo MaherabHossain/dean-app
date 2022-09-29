@@ -104,10 +104,10 @@ class _MyHomePageState extends State<MyHomePage> {
               //   name: '/course-details',
               //   page: () => CoursedetailsScreen(),
               // ),
-              GetPage(
-                name: '/select-batch',
-                page: () => SelectBatchScreen(),
-              ),
+              // GetPage(
+              //   name: '/select-batch',
+              //   page: () => SelectBatchScreen(),
+              // ),
               GetPage(
                 name: '/check-out',
                 page: () => CheckOutScreen(),

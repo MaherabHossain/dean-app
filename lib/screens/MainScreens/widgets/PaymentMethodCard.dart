@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
+import 'package:dean/controllers/PaymentController.dart';
 import 'package:dean/screens/MainScreens/widgets/Profilecard.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +8,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class PaymentMethodCard extends StatefulWidget {
-  const PaymentMethodCard({super.key});
+  int id;
+  PaymentMethodCard({super.key, required this.id});
 
   @override
   State<PaymentMethodCard> createState() => _PaymentMethodCardState();
 }
 
 class _PaymentMethodCardState extends State<PaymentMethodCard> {
+  final paymentController = Get.put(PaymentController());
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +34,7 @@ class _PaymentMethodCardState extends State<PaymentMethodCard> {
               fontSize: 14.sp, color: Color.fromARGB(255, 170, 169, 166)),
         ),
         subtitle: Text(
-          "127 ** **** **",
+          paymentController.paymentList[widget.id]['card_number'],
           style: TextStyle(color: Color.fromARGB(255, 59, 58, 58)),
         ),
         trailing: Container(
@@ -47,7 +50,7 @@ class _PaymentMethodCardState extends State<PaymentMethodCard> {
                 height: 1.h,
               ),
               Text(
-                "14/3",
+                paymentController.paymentList[widget.id]['exp_date'],
                 style: TextStyle(color: Color.fromARGB(255, 59, 58, 58)),
               ),
             ],

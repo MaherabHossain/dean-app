@@ -21,23 +21,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   getUserinfo() async {
     final prefs = await SharedPreferences.getInstance();
     userInfo = prefs.getStringList("userInfo");
-    print(userInfo);
-    print("from profile screen");
+
     // {name,email,provider,mobile,address,image,gender,phoneNo,creditLimit}
 
     if (authController.userInfo.isEmpty) {
-      print("auth controller is nulld");
       authController.userInfo.add(userInfo);
-      if (authController.userInfo == null) {
-        print("aslo null");
-      } else {
-        print("hurr");
-        print(authController.userInfo);
-      }
-    } else {
-      print("auth controller is not null");
-      print(authController.userInfo);
-      print(authController.userInfo.length);
+      if (authController.userInfo == null) {}
     }
     // print(userInfo?[0]);
     setState(() {});

@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:dean/controllers/CourseController.dart';
 import 'package:dean/screens/MainScreens/course/SelectBatchScreen.dart';
 import 'package:dean/screens/MainScreens/widgets/PaymentMethodCard.dart';
 import 'package:dean/screens/MainScreens/widgets/Profilecard.dart';
@@ -21,27 +22,6 @@ class CheckOutScreen extends StatefulWidget {
 }
 
 class _CheckOutScreenState extends State<CheckOutScreen> {
-  late VideoPlayerController _controller;
-  late bool _visibility = false;
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = VideoPlayerController.network(
-        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')
-      ..initialize().then((_) {
-        _visibility = true;
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-
-        if (mounted) {
-          // check whether the state object is in tree
-          setState(() {
-            // make changes here
-          });
-        }
-      });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -262,7 +242,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
               alignment: Alignment.bottomCenter,
               child: InkWell(
                 onTap: () {
-                  Get.to(SelectBatchScreen());
+                  // Get.to();
                 },
                 child: Container(
                   height: 50.h,

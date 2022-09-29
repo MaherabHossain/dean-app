@@ -225,9 +225,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       : Center(
                           child: Text("No Course available"),
                         )
-                  : Center(
-                      child: CircularProgressIndicator(
-                        color: deepPrimaryColor,
+                  : Container(
+                      margin: EdgeInsets.only(top: 20.h),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: deepPrimaryColor,
+                        ),
                       ),
                     ),
             ],

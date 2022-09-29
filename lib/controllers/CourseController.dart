@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 class CourseController extends GetxController {
   var loading = true.obs;
   var courseList = [].obs;
+  var cart = [].obs;
   @override
   onInit() {
     getCources();

@@ -1,18 +1,23 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, prefer_interpolation_to_compose_strings, dead_code, avoid_print
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:chewie/chewie.dart';
 import 'package:dean/controllers/CourseController.dart';
+import 'package:dean/screens/MainScreens/course/CartScreen.dart';
 import 'package:dean/screens/MainScreens/course/SelectBatchScreen.dart';
 import 'package:dean/screens/MainScreens/widgets/PaymentMethodCard.dart';
 import 'package:dean/screens/MainScreens/widgets/Profilecard.dart';
+import 'package:dean/screens/splashScreen/splashScreen.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 class CoursedetailsScreen extends StatefulWidget {
@@ -27,6 +32,7 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
   final courseController = Get.put(CourseController());
   late VideoPlayerController videoPlayerController;
   late FlickManager flickManager;
+
   @override
   void initState() {
     super.initState();
@@ -88,7 +94,9 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Get.to(CartScreen());
+                        },
                         child: Container(
                           padding: EdgeInsets.all(7),
                           decoration: BoxDecoration(
@@ -217,58 +225,75 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Language",
-                            style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Color.fromARGB(255, 124, 124, 124)),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Language",
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 124, 124, 124)),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Text(
+                                "English",
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              ),
+                            ],
                           ),
-                          Text(
-                            "Teacher",
-                            style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Color.fromARGB(255, 124, 124, 124)),
+                          Column(
+                            children: [
+                              Text(
+                                "Teacher",
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 124, 124, 124)),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Text(
+                                courseController.courseList[widget.id]
+                                    ['created_by'],
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              ),
+                            ],
                           ),
-                          Text(
-                            "Duration",
-                            style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Color.fromARGB(255, 124, 124, 124)),
-                          ),
+                          Column(
+                            children: [
+                              Text(
+                                "Duration",
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 124, 124, 124)),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Text(
+                                "${courseController.courseList[widget.id]['currculums'].length} weeks",
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              ),
+                            ],
+                          )
                         ],
                       ),
                       SizedBox(
                         height: 4.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "English",
-                            style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black),
-                          ),
-                          Text(
-                            courseController.courseList[widget.id]
-                                ['created_by'],
-                            style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black),
-                          ),
-                          Text(
-                            "${courseController.courseList[widget.id]['currculums'].length} weeks",
-                            style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black),
-                          ),
-                        ],
                       ),
                       SizedBox(
                         height: 24.h,
@@ -276,59 +301,77 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Genre",
-                            style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Color.fromARGB(255, 124, 124, 124)),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Genre",
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 124, 124, 124)),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Text(
+                                courseController.courseList[widget.id]
+                                        ['category'][
+                                    'name'], //need 12 charecter to proper alignments
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              ),
+                            ],
                           ),
-                          Text(
-                            "Students",
-                            style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Color.fromARGB(255, 124, 124, 124)),
+                          Column(
+                            children: [
+                              Text(
+                                "Students",
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 124, 124, 124)),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Text(
+                                "220k",
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              ),
+                            ],
                           ),
-                          Text(
-                            "Released",
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 124, 124, 124),
-                            ),
-                          ),
+                          Column(
+                            children: [
+                              Text(
+                                "Released",
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color.fromARGB(255, 124, 124, 124),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Text(
+                                "8 Aug, 2021",
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              ),
+                            ],
+                          )
                         ],
                       ),
                       SizedBox(
                         height: 4.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            courseController.courseList[widget.id]['category'][
-                                'name'], //need 12 charecter to proper alignments
-                            style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black),
-                          ),
-                          Text(
-                            "220k",
-                            style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black),
-                          ),
-                          Text(
-                            "8 Aug, 2021",
-                            style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black),
-                          ),
-                        ],
                       ),
                       SizedBox(
                         height: 14.h,
@@ -380,8 +423,26 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
             child: Align(
                 alignment: Alignment.bottomCenter,
                 child: InkWell(
-                  onTap: () {
-                    Get.to(SelectBatchScreen());
+                  onTap: () async {
+                    var _batches = [];
+                    var tempBatches =
+                        courseController.courseList[widget.id]["shcedules"];
+                    for (int i = 0; i < tempBatches.length; ++i) {
+                      // tempBatches[i]['isSelect'] = false;
+                      _batches.add({
+                        "id": tempBatches[i]["id"],
+                        "start_date": tempBatches[i]['start_date'],
+                        "days": tempBatches[i]['days'],
+                        "start_at": tempBatches[i]['start_at'],
+                        "isSelect": false,
+                      });
+                    }
+                    print(_batches);
+                    Get.to(SelectBatchScreen(
+                      batchDetails: _batches,
+                      id: widget.id,
+                      courseId: courseController.courseList[widget.id]['id'],
+                    ));
                   },
                   child: Container(
                     height: 50.h,

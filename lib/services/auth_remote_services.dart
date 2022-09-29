@@ -210,7 +210,7 @@ class AuthRemoteServices {
         // print(jsonData['data']['user']);
         data = {
           "status": true,
-          "message": "Profile updated Successfull!",
+          "message": "Profile updated Successfully!",
           "user": jsonData['data']['user'],
         };
         return data;

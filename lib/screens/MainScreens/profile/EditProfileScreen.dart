@@ -43,14 +43,8 @@ class _EditProfileScreenState extends State<EditProfileScreen>
 
   @override
   void initState() {
-    // getUserinfo();
-    print("LOG:::test from profile update");
-    print(authController.userInfo);
-
     if (authController.userInfo != null) {
       setState(() {
-        print("Testing jkxbdfi");
-        print(authController.userInfo);
         name = authController.userInfo[0][0];
         email = authController.userInfo[0][1];
         phone = authController.userInfo[0][7];
