@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CourseCard extends StatefulWidget {
-  int id;
-  CourseCard({super.key, required this.id});
+  var courseDetails;
+  CourseCard({super.key, required this.courseDetails});
 
   @override
   State<CourseCard> createState() => _CourseCardState();
@@ -26,155 +26,145 @@ class _CourseCardState extends State<CourseCard> {
     // var height = size.height;
     // var width = size.width;
     // print(courseController.courseList[widget.id]['image']);
-    return Obx(
-      () => InkWell(
-        onTap: () {
-          Get.to(CoursedetailsScreen(
-            id: widget.id,
-          ));
-        },
-        child: Container(
-          margin: EdgeInsets.only(bottom: 20.h),
-          // height: 190.h,
-          child: Column(
-            children: [
-              Container(
-                width: 155.38.w,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      topLeft: Radius.circular(20)), // Image border
-                  child: SizedBox.fromSize(
-                    // size: Size.fromRadius(48), // Image radius
-                    child: Image.network(
-                      'https://www.deanny.org' +
-                          courseController.courseList[widget.id]['image'],
-                      fit: BoxFit.cover,
-                      height: 98.27.h,
-                    ),
+    return InkWell(
+      onTap: () {
+        Get.to(CoursedetailsScreen(
+          id: widget.courseDetails['id'],
+        ));
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 20.h),
+        // height: 190.h,
+        child: Column(
+          children: [
+            Container(
+              width: 155.38.w,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(20)), // Image border
+                child: SizedBox.fromSize(
+                  // size: Size.fromRadius(48), // Image radius
+                  child: Image.network(
+                    'https://www.deanny.org' + widget.courseDetails['image'],
+                    fit: BoxFit.cover,
+                    height: 98.27.h,
                   ),
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(20)),
-                ),
-                width: 155.38.w,
-                // height: height / 9,
-                constraints: BoxConstraints(
-                  maxHeight: double.infinity,
-                ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: primaryColor,
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(20)),
+              ),
+              width: 155.38.w,
+              // height: height / 9,
+              constraints: BoxConstraints(
+                maxHeight: double.infinity,
+              ),
 
-                child: Padding(
-                  padding: const EdgeInsets.all(6.37),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(left: 10),
-                            width: 80.w,
-                            child: Text(
-                              courseController.courseList[widget.id]['title'],
-                              style: TextStyle(
-                                fontSize: 13.sp,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            courseController.courseList[widget.id]['hours'] !=
-                                    null
-                                ? courseController.courseList[widget.id]
-                                            ['hours']
-                                        .toString() +
-                                    " hrs"
-                                : "",
+              child: Padding(
+                padding: const EdgeInsets.all(6.37),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(left: 10),
+                          width: 80.w,
+                          child: Text(
+                            widget.courseDetails['title'],
                             style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
                               fontSize: 13.sp,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
                             ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          "Matthew Henry",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 146, 145, 145),
-                            fontSize: 12.sp,
                           ),
                         ),
+                        Text(
+                          widget.courseDetails['hours'] != null
+                              ? widget.courseDetails['hours'].toString() +
+                                  " hrs"
+                              : "",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 13.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Text(
+                        "Matthew Henry",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 146, 145, 145),
+                          fontSize: 12.sp,
+                        ),
                       ),
-                      Row(
-                        // // crossAxisAlignment: Cro,
-                        // mainAxisAlignment: MainAxisAlignment.start,
-                        // crossAxisAlignment: CrossAxisAlignment.start,
+                    ),
+                    Row(
+                      // // crossAxisAlignment: Cro,
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      // crossAxisAlignment: CrossAxisAlignment.start,
 
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(left: 10),
-                            width: 80.w,
-                            child: RatingBar.builder(
-                              initialRating: courseController
-                                  .courseList[widget.id]['rating']
-                                  .toDouble(),
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemSize: 10.h,
-                              itemPadding:
-                                  EdgeInsets.symmetric(horizontal: 2.0),
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                                // size: 40,
-                              ),
-                              onRatingUpdate: (rating) {
-                                // print(rating);
-                              },
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(left: 10),
+                          width: 80.w,
+                          child: RatingBar.builder(
+                            initialRating:
+                                widget.courseDetails['rating'].toDouble(),
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemSize: 10.h,
+                            itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                            itemBuilder: (context, _) => Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                              // size: 40,
                             ),
+                            onRatingUpdate: (rating) {
+                              // print(rating);
+                            },
                           ),
+                        ),
 
-                          Text(
-                            "\$" +
-                                courseController.courseList[widget.id]
-                                    ['discount_price'],
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
+                        Text(
+                          "\$" + widget.courseDetails['discount_price'],
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
                           ),
-                          // Container(
-                          //   padding: EdgeInsets.only(right: 40),
-                          //   child: Text(
-                          //     "\$230.00",
-                          //     style: TextStyle(
-                          //       color: Colors.white,
-                          //       fontWeight: FontWeight.w600,
-                          //       fontSize: 12.sp,
-                          //     ),
-                          //   ),
-                          // )
-                        ],
-                      )
-                    ],
-                  ),
+                        ),
+                        // Container(
+                        //   padding: EdgeInsets.only(right: 40),
+                        //   child: Text(
+                        //     "\$230.00",
+                        //     style: TextStyle(
+                        //       color: Colors.white,
+                        //       fontWeight: FontWeight.w600,
+                        //       fontSize: 12.sp,
+                        //     ),
+                        //   ),
+                        // )
+                      ],
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );

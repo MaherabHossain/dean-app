@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables
 import 'dart:ui';
 
+import 'package:dean/controllers/CourseController.dart';
 import 'package:dean/screens/MainScreens/explore/ExploreScreen.dart';
 import 'package:dean/screens/MainScreens/widgets/Categories.dart';
 import 'package:dean/screens/MainScreens/widgets/CourseCard.dart';
@@ -20,6 +21,7 @@ class BootCampSceen extends StatefulWidget {
 }
 
 class _BootCampSceenState extends State<BootCampSceen> {
+  final courseController = Get.put(CourseController());
   List categoriesList = [
     {"name": "ALL", "selected": true},
     {"name": "Programming", "selected": false},
@@ -37,34 +39,28 @@ class _BootCampSceenState extends State<BootCampSceen> {
           crossAxisCount: 2, mainAxisExtent: 180, crossAxisSpacing: 10),
       children: [
         CourseCard(
-          id: 1,
+          courseDetails: courseController.courseList[1],
         ),
         CourseCard(
-          id: 1,
+          courseDetails: courseController.courseList[1],
         ),
         CourseCard(
-          id: 1,
+          courseDetails: courseController.courseList[1],
         ),
         CourseCard(
-          id: 1,
+          courseDetails: courseController.courseList[1],
         ),
         CourseCard(
-          id: 1,
+          courseDetails: courseController.courseList[1],
         ),
         CourseCard(
-          id: 1,
+          courseDetails: courseController.courseList[1],
         ),
         CourseCard(
-          id: 1,
+          courseDetails: courseController.courseList[1],
         ),
         CourseCard(
-          id: 1,
-        ),
-        CourseCard(
-          id: 1,
-        ),
-        CourseCard(
-          id: 1,
+          courseDetails: courseController.courseList[1],
         ),
       ],
     );
@@ -149,14 +145,20 @@ class _BootCampSceenState extends State<BootCampSceen> {
               child: Column(
                 children: [
                   for (int i = 0; i < 10; i += 2)
-                    Row(
-                      children: [
-                        CourseCard(id: 1),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        CourseCard(id: 1),
-                      ],
+                    Obx(
+                      () => Row(
+                        children: [
+                          CourseCard(
+                            courseDetails: courseController.courseList[1],
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          CourseCard(
+                            courseDetails: courseController.courseList[1],
+                          ),
+                        ],
+                      ),
                     )
                 ],
               ),

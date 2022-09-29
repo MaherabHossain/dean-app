@@ -261,10 +261,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Column(
                   children: [
-                    ProfileCard(Icon(Icons.credit_card), "Help and Suport",
+                    ProfileCard(Icon(Icons.credit_card), "Help & Support",
                         '/edit-profile'),
                     ProfileCard(
-                        Icon(Icons.dns), "Tarms & Condition", '/edit-profile'),
+                        Icon(Icons.dns), "Terms & Conditions", '/edit-profile'),
                     ProfileCard(Icon(Icons.info), "About App", '/edit-profile'),
                   ],
                 )

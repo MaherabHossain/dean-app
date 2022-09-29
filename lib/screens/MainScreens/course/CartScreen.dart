@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:dean/controllers/CourseController.dart';
+import 'package:dean/screens/MainScreens/course/CheckOutScreen.dart';
 import 'package:dean/screens/MainScreens/course/SelectBatchScreen.dart';
 import 'package:dean/screens/MainScreens/widgets/PaymentMethodCard.dart';
 import 'package:dean/screens/MainScreens/widgets/Profilecard.dart';
@@ -36,9 +37,11 @@ class _CartScreenState extends State<CartScreen> {
       courseIdServer = prefs.getStringList("cart");
       courseIdLocal = prefs.getStringList("cartIndex");
       batchIdServer = prefs.getStringList("batchIndex");
-      for (var i = 0; i < courseIdLocal!.length; i++) {
-        totalPrice += double.parse(courseController
-            .courseList[int.parse(courseIdLocal![i])]['discount_price']);
+      if (courseIdLocal != null) {
+        for (var i = 0; i < courseIdLocal!.length; i++) {
+          totalPrice += double.parse(courseController
+              .courseList[int.parse(courseIdLocal![i])]['discount_price']);
+        }
       }
     });
   }
@@ -219,7 +222,7 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                       ],
                     )
-                  : Text("No Cart Data available!"),
+                  : Center(child: Text("No course available!")),
               SizedBox(
                 height: 10.h,
               ),
@@ -243,7 +246,7 @@ class _CartScreenState extends State<CartScreen> {
             alignment: Alignment.bottomCenter,
             child: InkWell(
               onTap: () {
-                // Get.to();
+                Get.to(CheckOutScreen());
               },
               child: Container(
                 height: 50.h,

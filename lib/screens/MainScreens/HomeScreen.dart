@@ -153,19 +153,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                   }
                                 }
                                 if (index == 0) {
-                                  displayCourse = courseController.courseList;
+                                  setState(() {
+                                    displayCourse = courseController.courseList;
+                                  });
                                 } else {
-                                  displayCourse = [];
-                                  for (int i = 0;
-                                      i < courseController.courseList.length;
-                                      ++i) {
-                                    if (courseController.courseList[i]
-                                            ['category']['id'] ==
-                                        index) {
-                                      displayCourse
-                                          .add(courseController.courseList[i]);
+                                  setState(() {
+                                    displayCourse = [];
+                                    for (int i = 0;
+                                        i < courseController.courseList.length;
+                                        ++i) {
+                                      if (courseController.courseList[i]
+                                              ['category']['id'] ==
+                                          index) {
+                                        displayCourse.add(
+                                            courseController.courseList[i]);
+                                      }
                                     }
-                                  }
+                                  });
                                 }
                               },
                               child: Categories(
@@ -199,7 +203,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     i == displayCourse.length - 1)
                                   Row(
                                     children: [
-                                      CourseCard(id: i),
+                                      CourseCard(
+                                          courseDetails: displayCourse[i]),
                                       SizedBox(
                                         width: 10.w,
                                       ),
@@ -209,14 +214,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Row(
                                     children: [
                                       CourseCard(
-                                        id: i,
-                                      ),
+                                          courseDetails: displayCourse[i]),
                                       SizedBox(
                                         width: 10.w,
                                       ),
                                       CourseCard(
-                                        id: i + 1,
-                                      ),
+                                          courseDetails: displayCourse[i + 1]),
                                     ],
                                   )
                             ],
