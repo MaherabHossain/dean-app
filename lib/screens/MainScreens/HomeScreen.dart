@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, unnecessary_new
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, unnecessary_new, prefer_interpolation_to_compose_strings
 
 import 'package:dean/controllers/AuthController.dart';
 import 'package:dean/controllers/CategoryController.dart';
@@ -90,15 +90,18 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               HeroSection(),
               SizedBox(
-                height: 135.h,
+                height: 200.h,
                 child: ListView(
                   // physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   children: [
-                    ImageSlider(),
-                    ImageSlider(),
-                    ImageSlider(),
+                    for (int i = 3; i >= 1; --i)
+                      ImageSlider(
+                        url: "assets/images/sliders/slider-" +
+                            i.toString() +
+                            ".png",
+                      ),
                   ],
                 ),
               ),
@@ -111,12 +114,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     children: [
-                      Programs(),
-                      Programs(),
-                      Programs(),
-                      Programs(),
-                      Programs(),
-                      Programs(),
+                      for (int i = 1; i <= 9; ++i)
+                        Programs(
+                          url: "assets/images/programs/program-" +
+                              i.toString() +
+                              ".png",
+                        ),
                     ],
                   ),
                 ),

@@ -5,7 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
 class Programs extends StatefulWidget {
-  const Programs({Key? key}) : super(key: key);
+  String url;
+  Programs({Key? key, required this.url}) : super(key: key);
 
   @override
   State<Programs> createState() => _ProgramsState();
@@ -23,16 +24,11 @@ class _ProgramsState extends State<Programs> {
       margin: EdgeInsets.only(right: 15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
-        border: Border.all(color: primaryColor, width: 3),
+        // border: Border.all(color: primaryColor, width: 3),
       ),
-      child: Center(
-        child: Text(
-          "Salesfarce Traning",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 10.sp,
-          ),
-        ),
+      child: Image.asset(
+        widget.url,
+        // fit: BoxFit.cover,
       ),
     );
   }

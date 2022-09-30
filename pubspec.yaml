@@ -80,6 +80,19 @@ flutter:
     - assets/images/payoneer.png
     - assets/images/graduationCap.png
     - assets/images/userIcon.png
+    - assets/images/programs/program-1.png
+    - assets/images/programs/program-2.png
+    - assets/images/programs/program-3.png
+    - assets/images/programs/program-4.png
+    - assets/images/programs/program-5.png
+    - assets/images/programs/program-6.png
+    - assets/images/programs/program-7.png
+    - assets/images/programs/program-8.png
+    - assets/images/programs/program-9.png
+    - assets/images/sliders/slider-1.png
+    - assets/images/sliders/slider-2.png
+    - assets/images/sliders/slider-3.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

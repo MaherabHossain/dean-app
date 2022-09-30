@@ -6,7 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
 class ImageSlider extends StatefulWidget {
-  const ImageSlider({Key? key}) : super(key: key);
+  String url;
+  ImageSlider({Key? key, required this.url}) : super(key: key);
 
   @override
   State<ImageSlider> createState() => _SliderState();
@@ -19,13 +20,22 @@ class _SliderState extends State<ImageSlider> {
     var height = size.height;
     var width = size.width;
     return Container(
-      padding: EdgeInsets.all(15),
+      // padding: EdgeInsets.all(15),
       child: Container(
-        height: 135.h,
-        width: 280.h,
+        // height: 135.h,
+        // width: 280.h,
         padding: EdgeInsets.all(15),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20), color: primaryColor),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset(
+            widget.url,
+            fit: BoxFit.cover,
+            // height: 200.h,
+            // width: 280.h,
+          ),
+        ),
+        // decoration: BoxDecoration(
+        //     borderRadius: BorderRadius.circular(20), color: primaryColor),
       ),
     );
   }

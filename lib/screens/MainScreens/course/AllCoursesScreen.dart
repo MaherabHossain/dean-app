@@ -70,9 +70,7 @@ class _AllCourseScreenState extends State<AllCourseScreen> {
     displayCourse = courseController.courseList;
     print("Hello world");
     print(displayCourse);
-    // categoryController.getCategories();
     checkTokenExpire();
-    // logOut();
     // TODO: implement initState
     super.initState();
   }
