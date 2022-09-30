@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:dean/controllers/CourseController.dart';
 import 'package:dean/screens/MainScreens/course/SelectBatchScreen.dart';
 import 'package:dean/screens/MainScreens/explore/ExploreDetailsScreen.dart';
 import 'package:dean/screens/MainScreens/widgets/ExploreCourseCard.dart';
@@ -22,7 +23,24 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
+  final courseController = Get.put(CourseController());
+
   late String search;
+  var courseList;
+  var displayCourse;
+  var displayIndex = [];
+  @override
+  void initState() {
+    courseList = courseController.courseList;
+    if (courseList != null) {
+      for (int i = 0; i < courseList.length; ++i) {
+        displayIndex.add(i);
+      }
+      displayCourse = courseList;
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -90,8 +108,18 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         print(value);
                       }),
                       onChanged: (value) {
+                        var input = value.toLowerCase();
+                        var suggetions = [];
+                        for (int i = 0; i < courseList.length; ++i) {
+                          var courseTitle =
+                              courseList[i]['title'].toLowerCase();
+                          if (courseTitle.contains(input)) {
+                            suggetions.add(i);
+                          }
+                        }
+                        // print(suggetions.length);
                         setState(() {
-                          search = value;
+                          displayIndex = suggetions;
                         });
                       },
                       cursorColor: Colors.black,
@@ -115,9 +143,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           color: Color.fromARGB(255, 141, 137, 137),
                         ),
                         suffixIcon: InkWell(
-                          onTap: () {
-                            Get.to(ExploreDetailsScreen());
-                          },
+                          // onTap: () {
+                          //   Get.to(ExploreDetailsScreen());
+                          // },
                           child: Icon(
                             Icons.search,
                             color: Color.fromARGB(255, 141, 137, 137),
@@ -128,106 +156,106 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     SizedBox(
                       height: 11.h,
                     ),
-                    Text(
-                      "Browser Category",
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    Container(
-                      child: Wrap(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(right: 10.w, bottom: 15.h),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: primaryColor,
-                            ),
-                            child: Text(
-                              "Game Development",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(right: 10.w, bottom: 15.h),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: primaryColor,
-                            ),
-                            child: Text(
-                              "Finance",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(right: 10.w, bottom: 15.h),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: primaryColor,
-                            ),
-                            child: Text(
-                              "Game ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(right: 10.w, bottom: 15.h),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: primaryColor,
-                            ),
-                            child: Text(
-                              "Finance",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(right: 10.w, bottom: 15.h),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: primaryColor,
-                            ),
-                            child: Text(
-                              "Game Development",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(right: 10.w, bottom: 15.h),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: primaryColor,
-                            ),
-                            child: Text(
-                              "Finance",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Text(
+                    //   "Browser Category",
+                    //   style: TextStyle(
+                    //     fontSize: 15.sp,
+                    //     fontWeight: FontWeight.w500,
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   height: 16.h,
+                    // ),
+                    // Container(
+                    //   child: Wrap(
+                    //     children: [
+                    //       Container(
+                    //         padding: EdgeInsets.all(10),
+                    //         margin: EdgeInsets.only(right: 10.w, bottom: 15.h),
+                    //         decoration: BoxDecoration(
+                    //           borderRadius: BorderRadius.circular(20),
+                    //           color: primaryColor,
+                    //         ),
+                    //         child: Text(
+                    //           "Game Development",
+                    //           style: TextStyle(
+                    //               fontWeight: FontWeight.w400,
+                    //               color: Colors.white),
+                    //         ),
+                    //       ),
+                    //       Container(
+                    //         padding: EdgeInsets.all(10),
+                    //         margin: EdgeInsets.only(right: 10.w, bottom: 15.h),
+                    //         decoration: BoxDecoration(
+                    //           borderRadius: BorderRadius.circular(20),
+                    //           color: primaryColor,
+                    //         ),
+                    //         child: Text(
+                    //           "Finance",
+                    //           style: TextStyle(
+                    //               fontWeight: FontWeight.w400,
+                    //               color: Colors.white),
+                    //         ),
+                    //       ),
+                    //       Container(
+                    //         padding: EdgeInsets.all(10),
+                    //         margin: EdgeInsets.only(right: 10.w, bottom: 15.h),
+                    //         decoration: BoxDecoration(
+                    //           borderRadius: BorderRadius.circular(20),
+                    //           color: primaryColor,
+                    //         ),
+                    //         child: Text(
+                    //           "Game ",
+                    //           style: TextStyle(
+                    //               fontWeight: FontWeight.w400,
+                    //               color: Colors.white),
+                    //         ),
+                    //       ),
+                    //       Container(
+                    //         padding: EdgeInsets.all(10),
+                    //         margin: EdgeInsets.only(right: 10.w, bottom: 15.h),
+                    //         decoration: BoxDecoration(
+                    //           borderRadius: BorderRadius.circular(20),
+                    //           color: primaryColor,
+                    //         ),
+                    //         child: Text(
+                    //           "Finance",
+                    //           style: TextStyle(
+                    //               fontWeight: FontWeight.w400,
+                    //               color: Colors.white),
+                    //         ),
+                    //       ),
+                    //       Container(
+                    //         padding: EdgeInsets.all(10),
+                    //         margin: EdgeInsets.only(right: 10.w, bottom: 15.h),
+                    //         decoration: BoxDecoration(
+                    //           borderRadius: BorderRadius.circular(20),
+                    //           color: primaryColor,
+                    //         ),
+                    //         child: Text(
+                    //           "Game Development",
+                    //           style: TextStyle(
+                    //               fontWeight: FontWeight.w400,
+                    //               color: Colors.white),
+                    //         ),
+                    //       ),
+                    //       Container(
+                    //         padding: EdgeInsets.all(10),
+                    //         margin: EdgeInsets.only(right: 10.w, bottom: 15.h),
+                    //         decoration: BoxDecoration(
+                    //           borderRadius: BorderRadius.circular(20),
+                    //           color: primaryColor,
+                    //         ),
+                    //         child: Text(
+                    //           "Finance",
+                    //           style: TextStyle(
+                    //               fontWeight: FontWeight.w400,
+                    //               color: Colors.white),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 6.h,
                     ),
@@ -249,10 +277,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     SizedBox(
                       height: 15.h,
                     ),
-                    ExploreCourseCard(),
-                    ExploreCourseCard(),
-                    ExploreCourseCard(),
-                    ExploreCourseCard(),
+                    if (courseList != null)
+                      for (int i = 0; i < displayIndex.length; ++i)
+                        ExploreCourseCard(id: displayIndex[i]),
                   ],
                 ),
               )

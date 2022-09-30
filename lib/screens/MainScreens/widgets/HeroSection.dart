@@ -21,7 +21,7 @@ class _HeroSectionState extends State<HeroSection> {
     var width = size.width;
     return Container(
       // margin: EdgeInsets.only(left: -20),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 29),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
       // height: 250,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(

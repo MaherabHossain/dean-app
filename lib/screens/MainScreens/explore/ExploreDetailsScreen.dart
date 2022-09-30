@@ -108,10 +108,9 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                     SizedBox(
                       height: 15.h,
                     ),
-                    ExploreCourseCard(),
-                    ExploreCourseCard(),
-                    ExploreCourseCard(),
-                    ExploreCourseCard(),
+                    ExploreCourseCard(
+                      id: 1,
+                    ),
                   ],
                 ),
               )
