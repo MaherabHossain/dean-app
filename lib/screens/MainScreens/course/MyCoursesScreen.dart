@@ -17,6 +17,11 @@ class MyCourcesScreen extends StatefulWidget {
 
 class _MyCourcesScreenState extends State<MyCourcesScreen> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(

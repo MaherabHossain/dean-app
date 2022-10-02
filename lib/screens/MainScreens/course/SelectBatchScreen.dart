@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:dean/controllers/CourseController.dart';
+import 'package:dean/controllers/PaymentController.dart';
 import 'package:dean/screens/MainScreens/course/CartScreen.dart';
 import 'package:dean/screens/MainScreens/course/CheckOutScreen.dart';
 import 'package:dean/screens/MainScreens/widgets/PaymentMethodCard.dart';
@@ -31,9 +32,13 @@ class SelectBatchScreen extends StatefulWidget {
 
 class _SelectBatchScreenState extends State<SelectBatchScreen> {
   var batchDetails;
+  var coupon;
   _SelectBatchScreenState({this.batchDetails});
   final courseController = Get.put(CourseController());
+  final paymentController = Get.put(PaymentController());
   var batchId = null;
+  var cardList;
+
   @override
   Widget build(BuildContext context) {
     print("LOG::: Select batches..");
@@ -437,7 +442,9 @@ class _SelectBatchScreenState extends State<SelectBatchScreen> {
                               height: 9.h,
                             ),
                             TextFormField(
-                              // initialValue: address,
+                              onChanged: ((value) {
+                                coupon = value;
+                              }),
                               cursorColor: Color.fromARGB(255, 141, 137, 137),
                               style: TextStyle(
                                   color: Color.fromARGB(255, 141, 137, 137)),
@@ -519,99 +526,127 @@ class _SelectBatchScreenState extends State<SelectBatchScreen> {
                           }
                           var prefs = await SharedPreferences.getInstance();
                           var _token = prefs.getString("token");
-                          courseController.cart
-                              .add(courseController.courseList[widget.id]);
+                          // courseController.cart
+                          //     .add(courseController.courseList[widget.id]);
                           // prefs.remove('cart');
                           // prefs.remove('batch');
                           // prefs.remove('cartIndex');
                           // prefs.remove('batchIndex');
                           // print("data removed");
                           // return;
-                          List<String>? cart = prefs.getStringList("cart");
-                          List<String>? cartIn =
-                              prefs.getStringList("cartIndex");
-                          List<String>? batchIn =
-                              prefs.getStringList("batchIndex");
-                          cart != null
-                              ? print("cart not null")
-                              : print("cart null");
+                          // List<String>? cart = prefs.getStringList("cart");
+                          // List<String>? cartIn =
+                          //     prefs.getStringList("cartIndex");
+                          // List<String>? batchIn =
+                          //     prefs.getStringList("batchIndex");
+                          // cart != null
+                          //     ? print("cart not null")
+                          //     : print("cart null");
 
-                          cartIn != null
-                              ? print("cartIn not null")
-                              : print("cartIn null");
-                          batchIn != null
-                              ? print("batchIn not null")
-                              : print("batchIn null");
+                          // cartIn != null
+                          //     ? print("cartIn not null")
+                          //     : print("cartIn null");
+                          // batchIn != null
+                          //     ? print("batchIn not null")
+                          //     : print("batchIn null");
 
-                          // return;
-                          if (cart == null &&
-                              cartIn == null &&
-                              batchIn == null) {
-                            print("come here");
-                            // prefs.setStringList('cart', stringList);
-                            List<String> cartString = [];
-                            List<String> batchString = [];
-                            List<String> cartIndex = [];
-                            List<String> batchIndex = [];
-                            cartString.add(courseController
-                                .courseList[widget.id]['id']
-                                .toString());
-                            batchString.add(courseController
-                                .courseList[widget.id]['id']
-                                .toString());
-                            cartIndex.add(widget.id.toString());
-                            batchIndex.add(widget.id.toString());
+                          //  no need to store data in local storage for multiple course order
 
-                            prefs.setStringList("cart", cartString);
-                            prefs.setStringList("batch", batchString);
-                            prefs.setStringList("cartIndex", cartIndex);
-                            prefs.setStringList("batchIndex", batchIndex);
-                            List<String>? cartTemp =
-                                prefs.getStringList("cart");
-                            List<String>? batchTemp =
-                                prefs.getStringList("batch");
-                            print("LOG::: test cart 2");
-                            print("LOG::: cart");
-                            print(cartTemp);
-                            print("LOG::: batch");
-                            print(batchTemp);
-                          } else {
-                            print("come here 2");
-                            List<String>? cartString = cart;
-                            cartString?.add(courseController
-                                .courseList[widget.id]['id']
-                                .toString());
+                          // if (cart == null &&
+                          //     cartIn == null &&
+                          //     batchIn == null) {
+                          //   print("come here");
+                          //   // prefs.setStringList('cart', stringList);
+                          //   List<String> cartString = [];
+                          //   List<String> batchString = [];
+                          //   List<String> cartIndex = [];
+                          //   List<String> batchIndex = [];
+                          //   cartString.add(courseController
+                          //       .courseList[widget.id]['id']
+                          //       .toString());
+                          //   batchString.add(courseController
+                          //       .courseList[widget.id]['id']
+                          //       .toString());
+                          //   cartIndex.add(widget.id.toString());
+                          //   batchIndex.add(widget.id.toString());
 
-                            List<String>? cartIndex = cartIn;
-                            cartIndex?.add(widget.id.toString());
-                            List<String>? batchIndex = batchIn;
-                            batchIndex?.add(batchId.toString());
-                            prefs.setStringList("batchIndex", batchIndex!);
+                          //   prefs.setStringList("cart", cartString);
+                          //   prefs.setStringList("batch", batchString);
+                          //   prefs.setStringList("cartIndex", cartIndex);
+                          //   prefs.setStringList("batchIndex", batchIndex);
+                          //   List<String>? cartTemp =
+                          //       prefs.getStringList("cart");
+                          //   List<String>? batchTemp =
+                          //       prefs.getStringList("batch");
+                          //   print("LOG::: test cart 2");
+                          //   print("LOG::: cart");
+                          //   print(cartTemp);
+                          //   print("LOG::: batch");
+                          //   print(batchTemp);
+                          // } else {
+                          //   print("come here 2");
+                          //   List<String>? cartString = cart;
+                          //   cartString?.add(courseController
+                          //       .courseList[widget.id]['id']
+                          //       .toString());
 
-                            prefs.setStringList("cartIndex", cartIndex!);
-                            prefs.setStringList("cart", cartString!);
-                            List<String>? cartTemp =
-                                prefs.getStringList("cart");
-                            List<String>? _cartIn =
-                                prefs.getStringList("cartIndex");
-                            List<String>? _batchIn =
-                                prefs.getStringList("batchIndex");
-                            List<String>? _batch = prefs.getStringList("batch");
-                            // print("LOG::: test cart");
-                            // print("LOG::: cart");
-                            // print(cartTemp);
-                            // //   cart -> server
-                            // // cartIndex -> local
-                            // // batchIndex -> server
-                            // print("LOG::: cart index");
-                            // print(_cartIn);
-                            // print("LOG::: batch index");
-                            // print(_batchIn);
-                            // print("LOG::: batch index local");
-                            // print(_batch);
-                          }
+                          //   List<String>? cartIndex = cartIn;
+                          //   cartIndex?.add(widget.id.toString());
+                          //   List<String>? batchIndex = batchIn;
+                          //   batchIndex?.add(batchId.toString());
+                          //   prefs.setStringList("batchIndex", batchIndex!);
+
+                          //   prefs.setStringList("cartIndex", cartIndex!);
+                          //   prefs.setStringList("cart", cartString!);
+                          //   List<String>? cartTemp =
+                          //       prefs.getStringList("cart");
+                          //   List<String>? _cartIn =
+                          //       prefs.getStringList("cartIndex");
+                          //   List<String>? _batchIn =
+                          //       prefs.getStringList("batchIndex");
+                          //   List<String>? _batch = prefs.getStringList("batch");
+                          //   // print("LOG::: test cart");
+                          //   // print("LOG::: cart");
+                          //   // print(cartTemp);
+                          //   // //   cart -> server
+                          //   // // cartIndex -> local
+                          //   // // batchIndex -> server
+                          //   // print("LOG::: cart index");
+                          //   // print(_cartIn);
+                          //   // print("LOG::: batch index");
+                          //   // print(_batchIn);
+                          //   // print("LOG::: batch index local");
+                          //   // print(_batch);
+                          // }
                           if (_token != null) {
-                            Get.to(CartScreen());
+                            var coupon_id;
+                            var discount;
+                            if (coupon != null) {
+                              var response =
+                                  await courseController.applyCoupon(coupon);
+                              if (response != null) {
+                                coupon_id = response['coupon_id'];
+                                discount = response['discount'];
+                                Get.to(CheckOutScreen(
+                                  course_id: widget.courseId,
+                                  schedule_id: batchId,
+                                  coupon_id: coupon_id,
+                                  discount: discount,
+                                  local_course_id: widget.id,
+                                ));
+                              }
+                              Get.to(CheckOutScreen(
+                                course_id: widget.courseId,
+                                schedule_id: batchId,
+                                local_course_id: widget.id,
+                              ));
+                              return;
+                            }
+                            Get.to(CheckOutScreen(
+                              course_id: widget.courseId,
+                              schedule_id: batchId,
+                              local_course_id: widget.id,
+                            ));
                           } else {
                             Get.to(SplashScreen());
                             print("LOG::: your are not logged in");
@@ -619,14 +654,18 @@ class _SelectBatchScreenState extends State<SelectBatchScreen> {
                           // Get.to(CheckOutScreen());
                         },
                         child: Center(
-                          child: Text(
-                            "Next",
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                            ),
-                          ),
+                          child: !courseController.loadingPay.value
+                              ? Text(
+                                  "Next",
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
                         ),
                       ),
                     ),

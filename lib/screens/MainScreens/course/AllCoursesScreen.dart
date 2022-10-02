@@ -188,6 +188,7 @@ class _AllCourseScreenState extends State<AllCourseScreen> {
                                     children: [
                                       CourseCard(
                                         courseDetails: displayCourse[i],
+                                        id: i,
                                       ),
                                       SizedBox(
                                         width: 10.w,
@@ -199,12 +200,14 @@ class _AllCourseScreenState extends State<AllCourseScreen> {
                                     children: [
                                       CourseCard(
                                         courseDetails: displayCourse[i],
+                                        id: i,
                                       ),
                                       SizedBox(
                                         width: 10.w,
                                       ),
                                       CourseCard(
                                         courseDetails: displayCourse[i + 1],
+                                        id: i,
                                       ),
                                     ],
                                   )

@@ -14,13 +14,17 @@ class PaymentController extends GetxController {
     if (response['status']) {
       print("LOG::: printing card lists");
       print(response['card']);
+      paymentList.clear();
       for (int i = 0; i < response['card'].length; ++i) {
         paymentList.add(response['card'][i]);
       }
+      isLoading.value = false;
+      return paymentList;
     } else {
       showToastMessage(response["message"]);
     }
     isLoading.value = false;
+    return null;
   }
 
   addCard(data) async {
@@ -38,10 +42,13 @@ class PaymentController extends GetxController {
       paymentList.value = tempCardList;
 
       showToastMessage("Card added successfully!");
+      isLoadingAdd.value = false;
+      return paymentList;
     } else {
       showToastMessage(response["message"]);
     }
     isLoadingAdd.value = false;
+    return null;
   }
 
   deleteCard(id) async {

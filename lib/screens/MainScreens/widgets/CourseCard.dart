@@ -11,7 +11,8 @@ import 'package:get/get.dart';
 
 class CourseCard extends StatefulWidget {
   var courseDetails;
-  CourseCard({super.key, required this.courseDetails});
+  var id;
+  CourseCard({super.key, required this.courseDetails, required this.id});
 
   @override
   State<CourseCard> createState() => _CourseCardState();
@@ -29,7 +30,7 @@ class _CourseCardState extends State<CourseCard> {
     return InkWell(
       onTap: () {
         Get.to(CoursedetailsScreen(
-          id: widget.courseDetails['id'],
+          id: widget.id,
         ));
       },
       child: Container(
@@ -121,7 +122,9 @@ class _CourseCardState extends State<CourseCard> {
                           width: 80.w,
                           child: RatingBar.builder(
                             initialRating:
-                                widget.courseDetails['rating'].toDouble(),
+                                widget.courseDetails['rating'] == null
+                                    ? 0.0
+                                    : widget.courseDetails['rating'].toDouble(),
                             minRating: 1,
                             direction: Axis.horizontal,
                             allowHalfRating: true,

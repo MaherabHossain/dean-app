@@ -83,171 +83,169 @@ class _HomeScreenState extends State<HomeScreen> {
     var height = size.height;
     var width = size.width;
 
-    return SafeArea(
-      child: Scaffold(
-        body: Obx(
-          () => SingleChildScrollView(
-            child: Column(
-              children: [
-                HeroSection(),
-                SizedBox(
-                  height: 200.h,
+    return Scaffold(
+      body: Obx(
+        () => SingleChildScrollView(
+          child: Column(
+            children: [
+              HeroSection(),
+              SizedBox(
+                height: 200.h,
+                child: ListView(
+                  // physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    for (int i = 3; i >= 1; --i)
+                      ImageSlider(
+                        url: "assets/images/sliders/slider-" +
+                            i.toString() +
+                            ".png",
+                      ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 15),
+                child: SizedBox(
+                  height: 50.h,
                   child: ListView(
                     // physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     children: [
-                      for (int i = 3; i >= 1; --i)
-                        ImageSlider(
-                          url: "assets/images/sliders/slider-" +
+                      for (int i = 1; i <= 9; ++i)
+                        Programs(
+                          url: "assets/images/programs/program-" +
                               i.toString() +
                               ".png",
                         ),
                     ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 15),
-                  child: SizedBox(
-                    height: 50.h,
-                    child: ListView(
-                      // physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        for (int i = 1; i <= 9; ++i)
-                          Programs(
-                            url: "assets/images/programs/program-" +
-                                i.toString() +
-                                ".png",
-                          ),
-                      ],
+              ),
+              SizedBox(
+                height: 13.h,
+              ),
+              Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 15.h),
+                    child: SizedBox(
+                      height: 25.h,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: ((context, index) {
+                          return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  categoryController.categoriesList[index]
+                                      ['selected'] = true;
+                                });
+
+                                for (var i = 0;
+                                    i <
+                                        categoryController
+                                            .categoriesList.length;
+                                    i++) {
+                                  if (i != index) {
+                                    setState(() {
+                                      categoryController.categoriesList[i]
+                                          ['selected'] = false;
+                                    });
+                                  }
+                                }
+                                if (index == 0) {
+                                  setState(() {
+                                    displayCourse = courseController.courseList;
+                                  });
+                                } else {
+                                  setState(() {
+                                    displayCourse = [];
+                                    for (int i = 0;
+                                        i < courseController.courseList.length;
+                                        ++i) {
+                                      if (courseController.courseList[i]
+                                              ['category']['id'] ==
+                                          index) {
+                                        displayCourse.add(
+                                            courseController.courseList[i]);
+                                      }
+                                    }
+                                  });
+                                }
+                              },
+                              child: Categories(
+                                  categoryController.categoriesList[index]
+                                      ['selected'],
+                                  categoryController.categoriesList[index]
+                                      ['name']));
+                        }),
+                        itemCount: categoryController.categoriesList.length,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 13.h,
-                ),
-                Column(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 15.h),
-                      child: SizedBox(
-                        height: 25.h,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: ((context, index) {
-                            return InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    categoryController.categoriesList[index]
-                                        ['selected'] = true;
-                                  });
-
-                                  for (var i = 0;
-                                      i <
-                                          categoryController
-                                              .categoriesList.length;
-                                      i++) {
-                                    if (i != index) {
-                                      setState(() {
-                                        categoryController.categoriesList[i]
-                                            ['selected'] = false;
-                                      });
-                                    }
-                                  }
-                                  if (index == 0) {
-                                    setState(() {
-                                      displayCourse =
-                                          courseController.courseList;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      displayCourse = [];
-                                      for (int i = 0;
-                                          i <
-                                              courseController
-                                                  .courseList.length;
-                                          ++i) {
-                                        if (courseController.courseList[i]
-                                                ['category']['id'] ==
-                                            index) {
-                                          displayCourse.add(
-                                              courseController.courseList[i]);
-                                        }
-                                      }
-                                    });
-                                  }
-                                },
-                                child: Categories(
-                                    categoryController.categoriesList[index]
-                                        ['selected'],
-                                    categoryController.categoriesList[index]
-                                        ['name']));
-                          }),
-                          itemCount: categoryController.categoriesList.length,
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      color:
-                          Color.fromARGB(255, 139, 139, 139), //color of divider
-                      height: 1, //height spacing of divider
-                      thickness: 1, //thickness of divier line
-                      indent: 15.w, //spacing at the start of divider
-                    ),
-                  ],
-                ),
-                !courseController.loading.value
-                    ? displayCourse != null
-                        ? Container(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 15.w, vertical: 10.h),
-                            child: Column(
-                              children: [
-                                for (int i = 0;
-                                    i < displayCourse.length;
-                                    i += 2)
-                                  if (displayCourse.length % 2 != 0 &&
-                                      i == displayCourse.length - 1)
-                                    Row(
-                                      children: [
-                                        CourseCard(
-                                            courseDetails: displayCourse[i]),
-                                        SizedBox(
-                                          width: 10.w,
-                                        ),
-                                      ],
-                                    )
-                                  else
-                                    Row(
-                                      children: [
-                                        CourseCard(
-                                            courseDetails: displayCourse[i]),
-                                        SizedBox(
-                                          width: 10.w,
-                                        ),
-                                        CourseCard(
-                                            courseDetails:
-                                                displayCourse[i + 1]),
-                                      ],
-                                    )
-                              ],
-                            ),
-                          )
-                        : Center(
-                            child: Text("No Course available"),
-                          )
-                    : Container(
-                        margin: EdgeInsets.only(top: 20.h),
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            color: deepPrimaryColor,
+                  Divider(
+                    color:
+                        Color.fromARGB(255, 139, 139, 139), //color of divider
+                    height: 1, //height spacing of divider
+                    thickness: 1, //thickness of divier line
+                    indent: 15.w, //spacing at the start of divider
+                  ),
+                ],
+              ),
+              !courseController.loading.value
+                  ? displayCourse != null
+                      ? Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 15.w, vertical: 10.h),
+                          child: Column(
+                            children: [
+                              for (int i = 0; i < displayCourse.length; i += 2)
+                                if (displayCourse.length % 2 != 0 &&
+                                    i == displayCourse.length - 1)
+                                  Row(
+                                    children: [
+                                      CourseCard(
+                                        courseDetails: displayCourse[i],
+                                        id: i,
+                                      ),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
+                                    ],
+                                  )
+                                else
+                                  Row(
+                                    children: [
+                                      CourseCard(
+                                        courseDetails: displayCourse[i],
+                                        id: i,
+                                      ),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
+                                      CourseCard(
+                                        courseDetails: displayCourse[i + 1],
+                                        id: i,
+                                      ),
+                                    ],
+                                  )
+                            ],
                           ),
+                        )
+                      : Center(
+                          child: Text("No Course available"),
+                        )
+                  : Container(
+                      margin: EdgeInsets.only(top: 20.h),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: deepPrimaryColor,
                         ),
                       ),
-              ],
-            ),
+                    ),
+            ],
           ),
         ),
       ),

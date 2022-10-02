@@ -88,22 +88,22 @@ class _HeroSectionState extends State<HeroSection> {
                 SizedBox(
                   width: 98.77.w,
                 ),
-                InkWell(
-                  onTap: () {
-                    Get.to(CartScreen());
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(7),
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 168, 69, 69),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Icon(
-                      Icons.shopping_cart,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+                // InkWell(
+                //   onTap: () {
+                //     Get.to(CartScreen());
+                //   },
+                //   child: Container(
+                //     padding: EdgeInsets.all(7),
+                //     decoration: BoxDecoration(
+                //       color: Color.fromARGB(255, 168, 69, 69),
+                //       borderRadius: BorderRadius.circular(10),
+                //     ),
+                //     child: Icon(
+                //       Icons.shopping_cart,
+                //       color: Colors.white,
+                //     ),
+                //   ),
+                // ),
                 SizedBox(
                   width: 13.w,
                 ),

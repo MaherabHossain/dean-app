@@ -94,19 +94,19 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                         ),
                       ),
                       InkWell(
-                        onTap: () {
-                          Get.to(CartScreen());
-                        },
+                        // onTap: () {
+                        //   Get.to(CartScreen());
+                        // },
                         child: Container(
                           padding: EdgeInsets.all(7),
                           decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 168, 69, 69),
+                            // color: Color.fromARGB(255, 168, 69, 69),
                             shape: BoxShape.circle,
                           ),
-                          child: Icon(
-                            Icons.shopping_cart,
-                            color: Colors.white,
-                          ),
+                          // child: Icon(
+                          //   Icons.shopping_cart,
+                          //   color: Colors.white,
+                          // ),
                         ),
                       ),
                     ],
@@ -169,8 +169,12 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                             children: [
                               RatingBar.builder(
                                 initialRating: courseController
-                                    .courseList[widget.id]['rating']
-                                    .toDouble(),
+                                            .courseList[widget.id]['rating'] ==
+                                        null
+                                    ? 0.0
+                                    : courseController.courseList[widget.id]
+                                            ['rating']
+                                        .toDouble(),
                                 minRating: 1,
                                 direction: Axis.horizontal,
                                 allowHalfRating: true,
@@ -190,14 +194,14 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                               SizedBox(
                                 width: 10.w,
                               ),
-                              Text(
-                                courseController.courseList[widget.id]['rating']
-                                    .toString(),
-                                style: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                              // Text(
+                              //   courseController.courseList[widget.id]['rating']
+                              //       .toString(),
+                              //   style: TextStyle(
+                              //     fontSize: 18.sp,
+                              //     fontWeight: FontWeight.w600,
+                              //   ),
+                              // ),
                             ],
                           ),
                           Text(
