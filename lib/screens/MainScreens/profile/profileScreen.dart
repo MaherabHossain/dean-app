@@ -146,13 +146,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  Text(
-                                    "Joined",
-                                    style: TextStyle(
-                                      fontSize: 17.sp,
-                                      color: Colors.white,
-                                    ),
-                                  )
                                 ],
                               ),
                               SizedBox(
@@ -169,13 +162,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  Text(
-                                    "1 Sep, 2022",
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: Colors.white,
-                                    ),
-                                  )
                                 ],
                               ),
                             ],
@@ -261,11 +247,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Column(
                   children: [
-                    ProfileCard(Icon(Icons.credit_card), "Help & Support",
-                        '/edit-profile'),
                     ProfileCard(
-                        Icon(Icons.dns), "Terms & Conditions", '/edit-profile'),
-                    ProfileCard(Icon(Icons.info), "About App", '/edit-profile'),
+                        Icon(Icons.credit_card), "Help & Support", '/help'),
+                    ProfileCard(
+                        Icon(Icons.dns), "Terms & Conditions", '/terms'),
+                    ProfileCard(Icon(Icons.info), "About App", '/about'),
                   ],
                 )
               ],

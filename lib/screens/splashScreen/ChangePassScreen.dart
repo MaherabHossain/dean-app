@@ -1,28 +1,29 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables
 
 import 'package:dean/controllers/AuthController.dart';
-import 'package:dean/screens/splashScreen/OtpScreen.dart';
 import 'package:dean/utilities/showToastMessage.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ForgotPaswordScreen extends StatefulWidget {
-  const ForgotPaswordScreen({Key? key}) : super(key: key);
+class ChangePassScreen extends StatefulWidget {
+  var token;
+  ChangePassScreen({Key? key, this.token}) : super(key: key);
 
   @override
-  State<ForgotPaswordScreen> createState() => _ForgotPaswordScreenState();
+  State<ChangePassScreen> createState() => _ChangePassScreenState();
 }
 
-class _ForgotPaswordScreenState extends State<ForgotPaswordScreen> {
+class _ChangePassScreenState extends State<ChangePassScreen> {
   final authController = Get.put(AuthController());
-  var email = "";
+  var pass = "";
+  var confPass = "";
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var height = size.height;
     var width = size.width;
-
+    print(widget.token);
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 139, 43, 43),
       body: Obx(
@@ -61,7 +62,7 @@ class _ForgotPaswordScreenState extends State<ForgotPaswordScreen> {
                   ),
                 ),
                 Text(
-                  'FORGOT PASSWORD?',
+                  'Change Password',
                   style: TextStyle(
                       fontSize: 19,
                       fontWeight: FontWeight.w500,
@@ -80,28 +81,14 @@ class _ForgotPaswordScreenState extends State<ForgotPaswordScreen> {
                   ),
                   child: Column(
                     children: [
-                      Text(
-                        "Enter your registered email below to receive ",
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 138, 131, 131),
-                            fontSize: 16),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "password reset instruction.",
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 138, 131, 131),
-                            fontSize: 16),
-                      ),
                       SizedBox(
                         height: 20,
                       ),
                       TextField(
+                        obscureText: true,
                         onChanged: ((value) {
                           setState(() {
-                            email = value;
+                            pass = value;
                           });
                         }),
                         style: TextStyle(
@@ -125,7 +112,44 @@ class _ForgotPaswordScreenState extends State<ForgotPaswordScreen> {
                           fillColor: Color.fromARGB(255, 233, 223, 223),
                           filled: true,
                           // border: InputBorder.none,
-                          hintText: "Enter your email",
+                          hintText: "Password",
+                          hintStyle: TextStyle(
+                              fontSize: 18.0,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      TextField(
+                        obscureText: true,
+                        onChanged: ((value) {
+                          setState(() {
+                            confPass = value;
+                          });
+                        }),
+                        style: TextStyle(
+                          color: primaryColor,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20,
+                        ),
+                        cursorColor: Colors.black,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 3, color: Colors.white),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 3, color: Colors.white),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          fillColor: Color.fromARGB(255, 233, 223, 223),
+                          filled: true,
+                          // border: InputBorder.none,
+                          hintText: "Confirm password",
                           hintStyle: TextStyle(
                               fontSize: 18.0,
                               color: Color.fromARGB(255, 0, 0, 0)),
@@ -139,21 +163,18 @@ class _ForgotPaswordScreenState extends State<ForgotPaswordScreen> {
                         width: width / 1.2,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: () async {
-                            if (email.isNotEmpty) {
-                              var response =
-                                  await authController.sendOtp(email);
-                              if (response != null) {
-                                showToastMessage("please check your mail");
-                                Get.to(
-                                  OtpScreen(
-                                    email: response['email'],
-                                    otp: response['otp'],
-                                  ),
-                                );
-                              }
+                          onPressed: () {
+                            if (pass.length < 6) {
+                              showToastMessage("minimum password length is 6");
+                              return;
+                            }
+                            if (pass.length > 5 && pass == confPass) {
+                              // authController.verifyOtp(widget.email, otp);
+                              authController.changePassword(
+                                  widget.token, pass, confPass);
                             } else {
-                              showToastMessage("Please enter email!");
+                              showToastMessage(
+                                  "Password and confirm password are not same!");
                             }
                           },
                           child: authController.isLoading.value
@@ -161,7 +182,7 @@ class _ForgotPaswordScreenState extends State<ForgotPaswordScreen> {
                                   color: Colors.white,
                                 )
                               : Text(
-                                  'Send OTP',
+                                  'Change Password',
                                   style: TextStyle(fontSize: 20),
                                 ),
                           style: ElevatedButton.styleFrom(

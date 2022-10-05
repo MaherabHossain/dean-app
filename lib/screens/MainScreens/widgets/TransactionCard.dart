@@ -7,7 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class TransactionCard extends StatefulWidget {
-  const TransactionCard({super.key});
+  var transaction;
+  TransactionCard({super.key, this.transaction});
 
   @override
   State<TransactionCard> createState() => _TransactionCardState();
@@ -33,14 +34,14 @@ class _TransactionCardState extends State<TransactionCard> {
               ),
             ),
             title: Text(
-              "Python Advance Course ",
+              widget.transaction['title'],
               style: TextStyle(
                   fontSize: 14.sp,
                   color: Color.fromARGB(255, 0, 0, 0),
                   fontWeight: FontWeight.w600),
             ),
             subtitle: Text(
-              "04 Sep, 2022",
+              widget.transaction['time'],
               style: TextStyle(color: Color.fromARGB(255, 59, 58, 58)),
             ),
             trailing: Container(
@@ -49,7 +50,7 @@ class _TransactionCardState extends State<TransactionCard> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    "\$220",
+                    "\$" + widget.transaction['price'].toString(),
                     style: TextStyle(
                         fontSize: 14.sp,
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -59,7 +60,7 @@ class _TransactionCardState extends State<TransactionCard> {
                     height: 1.h,
                   ),
                   Text(
-                    "01:20pm",
+                    widget.transaction['time'],
                     style: TextStyle(color: Color.fromARGB(255, 59, 58, 58)),
                   ),
                 ],

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, non_constant_identifier_names, prefer_interpolation_to_compose_strings, unused_local_variable, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, non_constant_identifier_names, prefer_interpolation_to_compose_strings, unused_local_variable, use_build_context_synchronously, unnecessary_null_comparison
 
 import 'dart:async';
 import 'dart:ui';
@@ -59,8 +59,20 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     }
   }
 
+  var displayCourse = [];
+  getDisplayCourse() {
+    for (int i = 0; i < courseController.courseList.length; ++i) {
+      if (courseController.courseList[i]["id"] == widget.course_id) {
+        setState(() {
+          displayCourse.add(courseController.courseList[i]);
+        });
+      }
+    }
+  }
+
   @override
   void initState() {
+    getDisplayCourse();
     getCardData();
 
     // TODO: implement initState
@@ -69,17 +81,20 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("LOG::Check cards");
-    print(cardList);
-    var discount = widget.discount ?? 0;
-    var total = widget.discount != null
-        ? double.parse(courseController.courseList[widget.local_course_id]
-                ["discount_price"]) -
-            double.parse(widget.discount.toString())
-        : courseController.courseList[widget.local_course_id]["discount_price"];
-    print("LOG:::checking course id/...");
-    print(widget.course_id);
-    print(widget.schedule_id);
+    var discount = 0;
+    var total = 0;
+    if (displayCourse != null) {
+      print("LOG::Check cards");
+      print(cardList);
+      discount = widget.discount ?? 0;
+      var totaltotal = widget.discount != null
+          ? double.parse(displayCourse[0]["discount_price"]) -
+              double.parse(widget.discount.toString())
+          : displayCourse[0]["discount_price"];
+      print("LOG:::checking course id/...");
+      print(widget.course_id);
+      print(widget.schedule_id);
+    }
     return SafeArea(
         child: Scaffold(
       backgroundColor: Colors.white,
@@ -119,20 +134,21 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                           color: Colors.black,
                         ),
                       ),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          padding: EdgeInsets.all(7),
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 168, 69, 69),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.done,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+                      Container()
+                      // InkWell(
+                      //   onTap: () {},
+                      //   child: Container(
+                      //     padding: EdgeInsets.all(7),
+                      //     decoration: BoxDecoration(
+                      //       color: Color.fromARGB(255, 168, 69, 69),
+                      //       shape: BoxShape.circle,
+                      //     ),
+                      //     child: Icon(
+                      //       Icons.done,
+                      //       color: Colors.white,
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -356,6 +372,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                   setState(() {
                                                     loading = true;
                                                   });
+                                                  Navigator.of(context).pop();
                                                   Map data = {
                                                     "payment_type": "stripe",
                                                     "card_number": cardNumber,
@@ -367,12 +384,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                   var response =
                                                       await paymentController
                                                           .addCard(data);
+
                                                   print(response);
                                                   setState(() {
                                                     loading = false;
                                                   });
                                                   getCardData();
-                                                  Navigator.of(context).pop();
                                                 }
                                               },
                                               child: loading
@@ -426,9 +443,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               trailing: Text(
                                 // ignore: prefer_interpolation_to_compose_strings
                                 "\$" +
-                                    courseController
-                                        .courseList[widget.local_course_id]
-                                            ["discount_price"]
+                                    displayCourse[0]["discount_price"]
                                         .toString(),
                                 style: TextStyle(
                                     fontSize: 14.sp,
@@ -476,6 +491,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 100.h,
+                )
               ],
             ),
           ),

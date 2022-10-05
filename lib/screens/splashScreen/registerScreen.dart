@@ -10,7 +10,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+  var courseId;
+  RegisterScreen({Key? key, this.courseId}) : super(key: key);
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -201,7 +202,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             await authController.createUser(userInfo);
                         if (response['status'] == true) {
                           showToastMessage(response['message']);
-                          Get.to(LoginScreen());
+                          if (widget.courseId != null) {
+                            Get.to(LoginScreen(
+                              courseId: widget.courseId,
+                            ));
+                          } else {
+                            Get.to(LoginScreen());
+                          }
                         } else {
                           showToastMessage(response['message']);
                         }
@@ -237,31 +244,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(
                 height: 15,
               ),
-              SizedBox(
-                //height of button
-                width: width / 1.2,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Text(data)
-                      Image(
-                        image: AssetImage("assets/images/google.png"),
-                        height: 25,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text('JOIN WITH GOOGLE')
-                    ],
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 230, 230, 230), // background
-                    onPrimary: Colors.black, // foreground
-                  ),
-                ),
-              ),
+              // SizedBox(
+              //   //height of button
+              //   width: width / 1.2,
+              //   child: ElevatedButton(
+              //     onPressed: () {},
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         // Text(data)
+              //         Image(
+              //           image: AssetImage("assets/images/google.png"),
+              //           height: 25,
+              //         ),
+              //         SizedBox(
+              //           width: 10,
+              //         ),
+              //         Text('JOIN WITH GOOGLE')
+              //       ],
+              //     ),
+              //     style: ElevatedButton.styleFrom(
+              //       primary: Color.fromARGB(255, 230, 230, 230), // background
+              //       onPrimary: Colors.black, // foreground
+              //     ),
+              //   ),
+              // ),
               SizedBox(
                 height: 15,
               ),

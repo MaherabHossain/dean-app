@@ -11,7 +11,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  var courseId;
+  SplashScreen({Key? key, this.courseId}) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -42,7 +43,13 @@ class _SplashScreenState extends State<SplashScreen> {
               width: width / 1.2,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.off(LoginScreen());
+                  if (widget.courseId != null) {
+                    Get.off(LoginScreen(
+                      courseId: widget.courseId,
+                    ));
+                  } else {
+                    Get.off(LoginScreen());
+                  }
                 },
                 child: Text('Login'),
                 style: ElevatedButton.styleFrom(
@@ -56,7 +63,13 @@ class _SplashScreenState extends State<SplashScreen> {
               width: width / 1.2,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.off(RegisterScreen());
+                  if (widget.courseId != null) {
+                    Get.off(RegisterScreen(
+                      courseId: widget.courseId,
+                    ));
+                  } else {
+                    Get.off(RegisterScreen());
+                  }
                 },
                 child: Text('Register'),
                 style: ElevatedButton.styleFrom(

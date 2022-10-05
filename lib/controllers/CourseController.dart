@@ -62,5 +62,17 @@ class CourseController extends GetxController {
     }
   }
 
-  myCources() async {}
+  getMyCourses() async {
+    loadingPay.value = true;
+    var response = await CourseRemoteServices.getMyCourses();
+
+    if (response['status']) {
+      loadingPay.value = false;
+      return response['courses'];
+    } else {
+      loadingPay.value = false;
+      showToastMessage("Something went wrong!");
+      return null;
+    }
+  }
 }

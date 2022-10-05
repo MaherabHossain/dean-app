@@ -221,4 +221,140 @@ class AuthRemoteServices {
     }
     return data;
   }
+
+  static sendOtp(email) async {
+    String url = baseUrl + "/forgot-password";
+    Map data = {};
+    Map body = {"email": email};
+    var response = await client.post(Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          "Accept": "application/json",
+        },
+        body: jsonEncode(body));
+    String jsonString = response.body;
+    print(jsonString);
+    var jsonData;
+    try {
+      jsonData = jsonDecode(jsonString);
+    } catch (e) {
+      jsonData = [];
+      data = {
+        "status": false,
+        "message": "Something went wrong ! try again",
+      };
+      return data;
+    }
+
+    if (response.statusCode == 200) {
+      // remove token from local storage
+      if (jsonData['data'] != null) {
+        data = {
+          "status": true,
+          "message": "Successfully ",
+          "otp": jsonData["data"]["otp"]
+        };
+        return data;
+      }
+    }
+    data = {
+      "status": false,
+      "message": "Something went wrong ! try again",
+    };
+    return data;
+  }
+
+  static verifyOtp(email, otp) async {
+    String url = baseUrl + "/verify-otp";
+    Map data = {};
+    Map body = {"email": email, "otp": otp};
+    var response = await client.post(Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          "Accept": "application/json",
+        },
+        body: jsonEncode(body));
+    String jsonString = response.body;
+    print(jsonString);
+    var jsonData;
+    try {
+      jsonData = jsonDecode(jsonString);
+    } catch (e) {
+      jsonData = [];
+      data = {
+        "status": false,
+        "message": "Something went wrong ! try again",
+      };
+      return data;
+    }
+
+    if (response.statusCode == 200) {
+      // remove token from local storage
+      if (jsonData['data'] != null) {
+        data = {
+          "status": true,
+          "message": "Successfully",
+          "token": jsonData["data"]["token"]
+        };
+        return data;
+      }
+    }
+    if (response.statusCode == 422) {
+      // remove token from local storage
+
+      data = {
+        "status": false,
+        "message": "Invalid Otp",
+      };
+      return data;
+    }
+    data = {
+      "status": false,
+      "message": "Something went wrong ! try again",
+    };
+    return data;
+  }
+
+  static changePassword(token, password, password_confirmation) async {
+    String url = baseUrl + "/reset-password";
+    Map data = {};
+    Map body = {
+      "token": token,
+      "password": password,
+      "password_confirmation": password_confirmation
+    };
+    var response = await client.post(Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          "Accept": "application/json",
+        },
+        body: jsonEncode(body));
+    String jsonString = response.body;
+    print(jsonString);
+    var jsonData;
+    try {
+      jsonData = jsonDecode(jsonString);
+    } catch (e) {
+      jsonData = [];
+      data = {
+        "status": false,
+        "message": "Something went wrong ! try again",
+      };
+      return data;
+    }
+
+    try {
+      data = {
+        "status": true,
+        "message": jsonData['message'],
+      };
+      return data;
+    } catch (e) {
+      data = {
+        "status": true,
+        "message": "Something went wrong!",
+      };
+      return data;
+    }
+  }
 }

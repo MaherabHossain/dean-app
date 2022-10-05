@@ -160,4 +160,52 @@ class CourseRemoteServices {
     }
     return data;
   }
+
+  static getMyCourses() async {
+    Map data = {};
+    String message = "";
+    String url = baseUrl + "/my-course";
+    final prefs = await SharedPreferences.getInstance();
+    var _token = prefs.getString("token");
+    String token = "Bearer " + _token!;
+    var response = await client.get(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        "Accept": "application/json",
+        "Authorization": token,
+      },
+    );
+    var jsonString = response.body;
+    print(response.statusCode);
+    var jsonData;
+    try {
+      jsonData = jsonDecode(jsonString);
+    } catch (e) {
+      jsonData = [];
+      print("LOG::: Wrong while decode json");
+      data = {
+        "status": false,
+        "message": "Something went wrong!",
+      };
+      return data;
+    }
+    if (response.statusCode == 200) {
+      if (jsonData['data'] != null) {
+        data = {
+          "status": true,
+          "message": "success",
+          "courses": jsonData["data"]["course"],
+        };
+        print("LOG::: printing the message from api");
+        // print(jsonData['data']['courses'].length);
+        return data;
+      }
+    }
+    data = {
+      "status": false,
+      "message": "Something went wrong",
+    };
+    return data;
+  }
 }

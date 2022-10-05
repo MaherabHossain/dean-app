@@ -23,6 +23,7 @@ class _CourseContentState extends State<CourseContent> {
           SizedBox(
             height: 4.h,
           ),
+          // ignore: prefer_const_constructors
           Text(
             "12 video . 25 min",
             style: TextStyle(color: Color.fromARGB(255, 139, 139, 139)),

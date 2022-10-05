@@ -1,9 +1,10 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names
 
 import 'package:dean/models/User.dart';
 import 'package:dean/screens/MainScreens/HomePage.dart';
 import 'package:dean/screens/MainScreens/HomeScreen.dart';
 import 'package:dean/screens/MainScreens/profile/profile.dart';
+import 'package:dean/screens/splashScreen/loginScreen.dart';
 import 'package:dean/services/auth_remote_services.dart';
 import 'package:dean/utilities/showToastMessage.dart';
 import 'package:get/get.dart';
@@ -47,10 +48,12 @@ class AuthController extends GetxController {
           "token_expires_at", response['access']['expires_at']);
       print("form shared prefs..");
       isLoadingCreateUser.value = false;
-      Get.offAll(HomePage());
+      return true;
+      // Get.offAll(HomePage());
     } else {
       showToastMessage(response['message']);
       isLoadingCreateUser.value = false;
+      return false;
     }
   }
 
@@ -97,5 +100,50 @@ class AuthController extends GetxController {
     } else {
       showToastMessage(response['message']);
     }
+  }
+
+  sendOtp(email) async {
+    isLoading.value = true;
+    var response = await AuthRemoteServices.sendOtp(email);
+    isLoading.value = false;
+    if (response['status']) {
+      // print(response['otp']);
+      // print("OTP send successfully!");
+      Map data = {
+        "email": email,
+        "otp": response['otp'],
+      };
+      return data;
+    } else {
+      showToastMessage("Something went wrong! try again");
+      return null;
+    }
+  }
+
+  verifyOtp(email, otp) async {
+    isLoading.value = true;
+    var response = await AuthRemoteServices.verifyOtp(email, otp);
+    isLoading.value = false;
+    if (response['status']) {
+      // print();
+      // print("OTP matched");
+      Map data = {
+        "token": response['token'],
+      };
+      showToastMessage("OTP verified!");
+      return data;
+    } else {
+      showToastMessage(response['message']);
+      return null;
+    }
+  }
+
+  changePassword(token, password, password_confirmation) async {
+    isLoading.value = true;
+    var response = await AuthRemoteServices.changePassword(
+        token, password, password_confirmation);
+    isLoading.value = false;
+    showToastMessage(response['message']);
+    Get.offAll(LoginScreen());
   }
 }

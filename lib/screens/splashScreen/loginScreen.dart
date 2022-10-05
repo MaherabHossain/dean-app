@@ -4,6 +4,7 @@ import 'package:dean/controllers/AuthController.dart';
 import 'package:dean/screens/MainScreens/course/AllCoursesScreen.dart';
 import 'package:dean/screens/MainScreens/HomePage.dart';
 import 'package:dean/screens/MainScreens/HomeScreen.dart';
+import 'package:dean/screens/MainScreens/course/CourseDetailsScreen.dart';
 import 'package:dean/screens/splashScreen/forgotPasswordScreen.dart';
 import 'package:dean/screens/splashScreen/registerScreen.dart';
 import 'package:dean/utilities/showToastMessage.dart';
@@ -13,7 +14,8 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  var courseId;
+  LoginScreen({Key? key, this.courseId}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -148,6 +150,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         List userCredential = [email, password];
                         var response =
                             await authController.login(userCredential);
+                        if (response) {
+                          if (widget.courseId != null) {
+                            Get.offAll(HomePage());
+                            Get.to(CoursedetailsScreen(id: widget.courseId));
+                          } else {
+                            Get.offAll(HomePage());
+                          }
+                        }
                       } else {
                         showToastMessage("All fields are required!");
                       }
@@ -181,31 +191,31 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 15,
               ),
-              SizedBox(
-                //height of button
-                width: width / 1.2,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Text(data)
-                      Image(
-                        image: AssetImage("assets/images/google.png"),
-                        height: 25,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text('LOGIN WITH GOOGLE')
-                    ],
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 230, 230, 230), // background
-                    onPrimary: Colors.black, // foreground
-                  ),
-                ),
-              ),
+              // SizedBox(
+              //   //height of button
+              //   width: width / 1.2,
+              //   child: ElevatedButton(
+              //     onPressed: () {},
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         // Text(data)
+              //         Image(
+              //           image: AssetImage("assets/images/google.png"),
+              //           height: 25,
+              //         ),
+              //         SizedBox(
+              //           width: 10,
+              //         ),
+              //         Text('LOGIN WITH GOOGLE')
+              //       ],
+              //     ),
+              //     style: ElevatedButton.styleFrom(
+              //       primary: Color.fromARGB(255, 230, 230, 230), // background
+              //       onPrimary: Colors.black, // foreground
+              //     ),
+              //   ),
+              // ),
               SizedBox(
                 height: 15,
               ),

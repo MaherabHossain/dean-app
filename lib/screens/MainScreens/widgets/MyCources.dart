@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables
 
+import 'package:dean/utilities/api.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 
 class MyCources extends StatefulWidget {
-  const MyCources({super.key});
+  var courseDetails;
+  MyCources({super.key, this.courseDetails});
 
   @override
   State<MyCources> createState() => _MyCourcesState();
@@ -15,6 +17,7 @@ class MyCources extends StatefulWidget {
 class _MyCourcesState extends State<MyCources> {
   @override
   Widget build(BuildContext context) {
+    print(widget.courseDetails);
     return Container(
       margin: EdgeInsets.only(bottom: 10.79.h),
       child: ClipRRect(
@@ -33,7 +36,7 @@ class _MyCourcesState extends State<MyCources> {
             child: SizedBox.fromSize(
               // size: Size.fromRadius(48), // Image radius
               child: Image.network(
-                'https://www.filepicker.io/api/file/sXz6u6kMQzK9uXkCwtPv',
+                appUrl + widget.courseDetails['image'],
                 fit: BoxFit.cover,
                 height: 98.27.h,
               ),
@@ -45,38 +48,39 @@ class _MyCourcesState extends State<MyCources> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Software Testing Advance Course",
+                  widget.courseDetails['title'],
                   style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
                       color: Colors.white),
                 ),
-                Container(
-                  // margin: EdgeInsets.only(
-                  //   left: MediaQuery.of(context).size.width / 5,
-                  // ),
-                  child: Text(
-                    "80%",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+                // Container(
+                //   // margin: EdgeInsets.only(
+                //   //   left: MediaQuery.of(context).size.width / 5,
+                //   // ),
+                //   child: Text(
+                //     "80%",
+                //     style: TextStyle(
+                //       color: Colors.white,
+                //       fontSize: 12.sp,
+                //       fontWeight: FontWeight.w600,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
-            subtitle: Center(
-                child: Container(
-              padding: EdgeInsets.only(top: 5.89.h),
-              child: FAProgressBar(
-                progressColor: primaryColor,
-                size: 5.87.h,
-                backgroundColor: Color.fromARGB(255, 146, 145, 145),
-                currentValue: 80,
-                // displayText: '%',
-              ),
-            )),
+            // subtitle: Center(
+            //   child: Container(
+            //     padding: EdgeInsets.only(top: 5.89.h),
+            //     child: FAProgressBar(
+            //       progressColor: primaryColor,
+            //       size: 5.87.h,
+            //       backgroundColor: Color.fromARGB(255, 146, 145, 145),
+            //       currentValue: 80,
+            //       // displayText: '%',
+            //     ),
+            //   ),
+            // ),
             // trailing:,
           ),
         ),

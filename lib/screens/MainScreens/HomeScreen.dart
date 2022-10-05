@@ -79,6 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("Display course");
+    print(displayCourse.length);
     var size = MediaQuery.of(context).size;
     var height = size.height;
     var width = size.width;
@@ -208,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                       CourseCard(
                                         courseDetails: displayCourse[i],
-                                        id: i,
+                                        id: displayCourse[i]['id'],
                                       ),
                                       SizedBox(
                                         width: 10.w,
@@ -220,14 +222,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                       CourseCard(
                                         courseDetails: displayCourse[i],
-                                        id: i,
+                                        id: displayCourse[i]['id'],
                                       ),
                                       SizedBox(
                                         width: 10.w,
                                       ),
                                       CourseCard(
                                         courseDetails: displayCourse[i + 1],
-                                        id: i,
+                                        id: displayCourse[i + 1]['id'],
                                       ),
                                     ],
                                   )

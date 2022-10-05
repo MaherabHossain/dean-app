@@ -3,41 +3,30 @@
 import 'package:dean/controllers/PaymentController.dart';
 import 'package:dean/screens/MainScreens/widgets/PaymentMethodCard.dart';
 import 'package:dean/screens/MainScreens/widgets/Profilecard.dart';
-import 'package:dean/screens/MainScreens/widgets/TransactionCard.dart';
+import 'package:dean/utilities/showToastMessage.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class TransactionScreen extends StatefulWidget {
-  const TransactionScreen({super.key});
+class AboutScreen extends StatefulWidget {
+  const AboutScreen({super.key});
 
   @override
-  State<TransactionScreen> createState() => _TransactionScreenState();
+  State<AboutScreen> createState() => _AboutScreenState();
 }
 
-class _TransactionScreenState extends State<TransactionScreen> {
-  final paymentCountroller = Get.put(PaymentController());
-  var transactions;
-  getTransaction() async {
-    var response = await paymentCountroller.getTrnsaction();
-    setState(() {
-      transactions = response;
-    });
-  }
-
+class _AboutScreenState extends State<AboutScreen> {
   @override
   void initState() {
-    getTransaction();
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      body: SingleChildScrollView(
+      child: Scaffold(
+          body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -64,7 +53,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                     ),
                   ),
                   Text(
-                    "Transaction History",
+                    "About App",
                     style: TextStyle(
                       fontSize: 20.sp,
                       color: Colors.white,
@@ -74,31 +63,33 @@ class _TransactionScreenState extends State<TransactionScreen> {
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 36.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  paymentCountroller.isLoading.value
-                      ? Center(child: CircularProgressIndicator())
-                      : transactions != null
-                          ? Column(
-                              children: [
-                                for (int i = 0; i < transactions.length; ++i)
-                                  TransactionCard(
-                                    transaction: transactions[i],
-                                  )
-                              ],
-                            )
-                          : Center(
-                              child: Text("No transaction available!"),
-                            ),
-                ],
-              ),
+            Column(
+              children: [
+                SizedBox(
+                  height: 10.h,
+                ),
+                Container(
+                  child: Text(
+                    "Welcome to Dean Institute",
+                    style: TextStyle(
+                        fontSize: 15.h,
+                        color: deepPrimaryColor,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 20.h, right: 20.h, top: 10.h),
+                  child: Text(
+                    "Dean Institute We help organizations of all types and sizes prepare for the path ahead — wherever it leads.Our curated collection of business and technical courses help companies, governments, and nonprofits go further by placing learning at the center of their strategies.The mission to provide world-class education for anyone, anywhere. Learners, teachers, districts, and parents,Students practice at their own pace, first filling in gaps in their understanding and then accelerating their learning.With Dean teachers can identify gaps in their students’ understanding, tailor instruction, and meet the needs of every student.",
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(fontSize: 15.sp, height: 2),
+                  ),
+                )
+              ],
             )
           ],
         ),
-      ),
-    ));
+      )),
+    );
   }
 }

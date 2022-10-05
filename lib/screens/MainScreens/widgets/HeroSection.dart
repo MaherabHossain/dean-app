@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, prefer_const_literals_to_create_immutables
 
 import 'package:dean/screens/MainScreens/course/CartScreen.dart';
+import 'package:dean/screens/MainScreens/explore/ExploreScreen.dart';
 import 'package:dean/utilities/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -130,7 +131,13 @@ class _HeroSectionState extends State<HeroSection> {
             ),
             SizedBox(
               height: 40.h,
-              child: TextField(
+              child: TextFormField(
+                onTap: () {
+                  Get.to(ExploreScreen());
+                },
+                onChanged: (value) {
+                  Get.to(ExploreScreen());
+                },
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(20),

@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
         HomeScreen(),
         AllCourseScreen(),
         BootCampSceen(),
-        MyCourcesScreen(),
+        token != null ? MyCourcesScreen() : SplashScreen(),
         token != null ? ProfileScreen() : SplashScreen(),
       ];
     });

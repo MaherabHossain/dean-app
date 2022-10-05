@@ -6,6 +6,7 @@ import 'package:dean/controllers/CourseController.dart';
 import 'package:dean/controllers/PaymentController.dart';
 import 'package:dean/screens/MainScreens/course/CartScreen.dart';
 import 'package:dean/screens/MainScreens/course/CheckOutScreen.dart';
+import 'package:dean/screens/MainScreens/profile/TermsScreen.dart';
 import 'package:dean/screens/MainScreens/widgets/PaymentMethodCard.dart';
 import 'package:dean/screens/MainScreens/widgets/Profilecard.dart';
 import 'package:dean/screens/splashScreen/splashScreen.dart';
@@ -33,11 +34,29 @@ class SelectBatchScreen extends StatefulWidget {
 class _SelectBatchScreenState extends State<SelectBatchScreen> {
   var batchDetails;
   var coupon;
+  var checkedValue = false;
   _SelectBatchScreenState({this.batchDetails});
   final courseController = Get.put(CourseController());
   final paymentController = Get.put(PaymentController());
   var batchId = null;
   var cardList;
+  var displayCourse = [];
+  getDisplayCourse() {
+    for (int i = 0; i < courseController.courseList.length; ++i) {
+      if (courseController.courseList[i]["id"] == widget.id) {
+        setState(() {
+          displayCourse.add(courseController.courseList[i]);
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    getDisplayCourse();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,13 +133,12 @@ class _SelectBatchScreenState extends State<SelectBatchScreen> {
                             image: NetworkImage(
                                 // ignore: prefer_interpolation_to_compose_strings
                                 'https://www.deanny.org' +
-                                    courseController.courseList[widget.id]
-                                        ['image']),
+                                    displayCourse[0]['image']),
                             height: 55.h,
                           ),
                         ),
                         title: Text(
-                          courseController.courseList[widget.id]['title'],
+                          displayCourse[0]['title'],
                           style: TextStyle(
                               fontSize: 14.sp,
                               color: Color.fromARGB(255, 0, 0, 0),
@@ -135,6 +153,7 @@ class _SelectBatchScreenState extends State<SelectBatchScreen> {
                           top: 40.h,
                         ),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             for (int i = 0; i < batchDetails.length; i += 2)
                               if (batchDetails.length % 2 != 0 &&
@@ -478,6 +497,39 @@ class _SelectBatchScreenState extends State<SelectBatchScreen> {
                               ),
                             ),
                             SizedBox(
+                              height: 5.h,
+                            ),
+                            // Text(
+                            //   "Terms & Conditions",
+                            //   style: TextStyle(
+                            //     fontSize: 14.sp,
+                            //     fontWeight: FontWeight.w700,
+                            //   ),
+                            // ),
+                            CheckboxListTile(
+                              title: Text("I Agree"),
+                              value: checkedValue,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  checkedValue = newValue!;
+                                });
+                              },
+                              controlAffinity: ListTileControlAffinity
+                                  .leading, //  <-- leading Checkbox
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Get.to(TermsScreen());
+                              },
+                              child: Text(
+                                "Terms & Conditions",
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.blue),
+                              ),
+                            ),
+                            SizedBox(
                               height: 50.h,
                             )
                           ],
@@ -522,6 +574,11 @@ class _SelectBatchScreenState extends State<SelectBatchScreen> {
                         onTap: () async {
                           if (batchId == null) {
                             showToastMessage("please select a batch!");
+                            return;
+                          }
+                          if (!checkedValue) {
+                            showToastMessage(
+                                "Please accept terms and conditions!");
                             return;
                           }
                           var prefs = await SharedPreferences.getInstance();

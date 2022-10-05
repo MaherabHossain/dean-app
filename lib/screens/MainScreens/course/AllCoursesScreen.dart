@@ -103,10 +103,15 @@ class _AllCourseScreenState extends State<AllCourseScreen> {
                       onTap: () {
                         Get.to(ExploreScreen());
                       },
-                      child: Icon(
-                        Icons.search,
-                        color: Colors.white,
-                        size: 20.sp,
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(ExploreScreen());
+                        },
+                        child: Icon(
+                          Icons.search,
+                          color: Colors.white,
+                          size: 20.sp,
+                        ),
                       ),
                     ),
                   ],
@@ -188,7 +193,7 @@ class _AllCourseScreenState extends State<AllCourseScreen> {
                                     children: [
                                       CourseCard(
                                         courseDetails: displayCourse[i],
-                                        id: i,
+                                        id: displayCourse[i]['id'],
                                       ),
                                       SizedBox(
                                         width: 10.w,
@@ -200,14 +205,14 @@ class _AllCourseScreenState extends State<AllCourseScreen> {
                                     children: [
                                       CourseCard(
                                         courseDetails: displayCourse[i],
-                                        id: i,
+                                        id: displayCourse[i]['id'],
                                       ),
                                       SizedBox(
                                         width: 10.w,
                                       ),
                                       CourseCard(
                                         courseDetails: displayCourse[i + 1],
-                                        id: i,
+                                        id: displayCourse[i + 1]['id'],
                                       ),
                                     ],
                                   )

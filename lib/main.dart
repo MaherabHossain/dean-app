@@ -8,12 +8,16 @@ import 'package:dean/screens/MainScreens/HomeScreen.dart';
 import 'package:dean/screens/MainScreens/course/CheckOutScreen.dart';
 import 'package:dean/screens/MainScreens/course/CourseDetailsScreen.dart';
 import 'package:dean/screens/MainScreens/course/CourseVideoScreen.dart';
+import 'package:dean/screens/MainScreens/profile/AboutScreen.dart';
+import 'package:dean/screens/MainScreens/profile/HelpScreen.dart';
 import 'package:dean/screens/MainScreens/course/MyCoursesScreen.dart';
 import 'package:dean/screens/MainScreens/course/SelectBatchScreen.dart';
 import 'package:dean/screens/MainScreens/explore/ExploreDetailsScreen.dart';
 import 'package:dean/screens/MainScreens/explore/ExploreScreen.dart';
 import 'package:dean/screens/MainScreens/profile/EditProfileScreen.dart';
 import 'package:dean/screens/MainScreens/profile/PaymentMathodScreen.dart';
+import 'package:dean/screens/MainScreens/profile/TermsScreen.dart';
+import 'package:dean/screens/MainScreens/profile/AboutScreen.dart';
 import 'package:dean/screens/MainScreens/profile/TransactionScreen.dart';
 import 'package:dean/screens/MainScreens/profile/profileScreen.dart';
 import 'package:dean/screens/splashScreen/splashScreen.dart';
@@ -79,6 +83,18 @@ class _MyHomePageState extends State<MyHomePage> {
               GetPage(
                 name: '/my-cources',
                 page: () => MyCourcesScreen(),
+              ),
+              GetPage(
+                name: '/terms',
+                page: () => TermsScreen(),
+              ),
+              GetPage(
+                name: '/help',
+                page: () => HelpScreen(),
+              ),
+              GetPage(
+                name: '/about',
+                page: () => AboutScreen(),
               ),
 
               /// Dynamic route

@@ -29,6 +29,7 @@ class PaymentController extends GetxController {
 
   addCard(data) async {
     isLoadingAdd.value = true;
+    isLoading.value = true;
     var response = await PaymentRemoteServices.addCard(data);
     if (response['status']) {
       print("LOG::: printing card lists");
@@ -43,11 +44,13 @@ class PaymentController extends GetxController {
 
       showToastMessage("Card added successfully!");
       isLoadingAdd.value = false;
+      isLoading.value = false;
       return paymentList;
     } else {
       showToastMessage(response["message"]);
     }
     isLoadingAdd.value = false;
+    isLoading.value = false;
     return null;
   }
 
@@ -57,6 +60,22 @@ class PaymentController extends GetxController {
       showToastMessage("Card Deleted Successfully!");
     } else {
       showToastMessage("Something went wrong!");
+    }
+  }
+
+  getTrnsaction() async {
+    isLoading.value = true;
+    var response = await PaymentRemoteServices.getTransaction();
+
+    if (response['status']) {
+      // print(response['transactions']);
+      print("LOG:: Successfully geting transaction history");
+      isLoading.value = false;
+      return response['transactions'];
+    } else {
+      showToastMessage("Something went wrong!");
+      isLoading.value = false;
+      return null;
     }
   }
 }

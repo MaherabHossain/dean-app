@@ -33,17 +33,28 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
   late VideoPlayerController videoPlayerController;
   late FlickManager flickManager;
 
+  var displayCourse = [];
+  getDisplayCourse() {
+    for (int i = 0; i < courseController.courseList.length; ++i) {
+      if (courseController.courseList[i]["id"] == widget.id) {
+        setState(() {
+          displayCourse.add(courseController.courseList[i]);
+        });
+      }
+    }
+  }
+
   @override
   void initState() {
+    getDisplayCourse();
     super.initState();
     flickManager = FlickManager(
         videoPlayerController: VideoPlayerController.network(
             // ignore: prefer_interpolation_to_compose_strings
 
-            courseController.courseList[widget.id]['video'] == null
+            displayCourse[0]["video"] == null
                 ? "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
-                : 'https://www.deanny.org' +
-                    courseController.courseList[widget.id]['video']),
+                : "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"),
         autoPlay: false);
   }
 
@@ -55,10 +66,13 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (displayCourse != null) {
+      print("Display Course Title:");
+      print(displayCourse[0]["title"]);
+    }
     return SafeArea(
-        child: Scaffold(
-      body: Obx(
-        () => Stack(children: [
+      child: Scaffold(
+        body: Stack(children: [
           SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,7 +132,7 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                       // _visibility = !_visibility;
                     });
                   },
-                  child: courseController.courseList[widget.id]['video'] != null
+                  child: displayCourse[0]['video'] != null
                       ? Stack(
                           children: [
                             flickManager != null
@@ -130,7 +144,7 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                         )
                       : Image(
                           image: NetworkImage('https://www.deanny.org' +
-                              courseController.courseList[widget.id]['image']),
+                              displayCourse[0]['image']),
                           fit: BoxFit.cover,
                           width: MediaQuery.of(context).size.width,
                         ),
@@ -141,7 +155,7 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        courseController.courseList[widget.id]['title'],
+                        displayCourse[0]['title'],
                         style: TextStyle(
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w600,
@@ -151,7 +165,7 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                         height: 8.h,
                       ),
                       Text(
-                        courseController.courseList[widget.id]['created_by'],
+                        displayCourse[0]['created_by'],
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
@@ -168,13 +182,10 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                           Row(
                             children: [
                               RatingBar.builder(
-                                initialRating: courseController
-                                            .courseList[widget.id]['rating'] ==
-                                        null
-                                    ? 0.0
-                                    : courseController.courseList[widget.id]
-                                            ['rating']
-                                        .toDouble(),
+                                initialRating:
+                                    displayCourse[0]['rating'] == null
+                                        ? 0.0
+                                        : displayCourse[0]['rating'].toDouble(),
                                 minRating: 1,
                                 direction: Axis.horizontal,
                                 allowHalfRating: true,
@@ -205,9 +216,7 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                             ],
                           ),
                           Text(
-                            "\$" +
-                                courseController.courseList[widget.id]
-                                    ['discount_price'],
+                            "\$" + displayCourse[0]['discount_price'],
                             style: TextStyle(
                               fontSize: 18.sp,
                               fontWeight: FontWeight.w600,
@@ -218,8 +227,7 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                       SizedBox(
                         height: 30.h,
                       ),
-                      Text(courseController.courseList[widget.id]
-                          ['description']),
+                      Text(displayCourse[0]['description']),
                       SizedBox(
                         height: 19.h,
                       ),
@@ -264,8 +272,7 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                                 height: 10.h,
                               ),
                               Text(
-                                courseController.courseList[widget.id]
-                                    ['created_by'],
+                                displayCourse[0]['created_by'],
                                 style: TextStyle(
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
@@ -286,7 +293,7 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                                 height: 10.h,
                               ),
                               Text(
-                                "${courseController.courseList[widget.id]['currculums'].length} weeks",
+                                "${displayCourse[0]['currculums'].length} weeks",
                                 style: TextStyle(
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
@@ -319,8 +326,7 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                                 height: 10.h,
                               ),
                               Text(
-                                courseController.courseList[widget.id]
-                                        ['category'][
+                                displayCourse[0]['category'][
                                     'name'], //need 12 charecter to proper alignments
                                 style: TextStyle(
                                     fontSize: 14.sp,
@@ -342,7 +348,9 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                                 height: 10.h,
                               ),
                               Text(
-                                "220k",
+                                displayCourse[0]['enroll'] == null
+                                    ? 0.toString()
+                                    : displayCourse[0]['enroll'],
                                 style: TextStyle(
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
@@ -392,28 +400,75 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                         ),
                       ),
                       for (int i = 0;
-                          i <
-                              courseController
-                                  .courseList[widget.id]['currculums'].length;
+                          i < displayCourse[0]['currculums'].length;
                           ++i)
-                        ListTile(
-                          title: Text(
-                            courseController.courseList[widget.id]['currculums']
-                                [i]['title'],
-                            style: TextStyle(
-                              // fontSize: 12.sp,
-                              fontWeight: FontWeight.w500,
-                            ),
+                        ExpansionTile(
+                          expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                displayCourse[0]['currculums'][i]['title'],
+                                style: TextStyle(
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ],
                           ),
-                          trailing: Text(
-                            courseController.courseList[widget.id]['currculums']
-                                [i]['time'],
-                            style: TextStyle(
-                              // fontSize: 12.sp,
-                              fontWeight: FontWeight.w500,
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 20.w),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    displayCourse[0]['currculums'][i]
+                                        ['description'],
+                                    textAlign: TextAlign.justify,
+                                  )
+                                  // ListTile(
+                                  //   title: Column(
+                                  //     crossAxisAlignment:
+                                  //         CrossAxisAlignment.start,
+                                  //     children: [
+                                  //       Text(
+                                  //         "Section 1 : Video 1",
+                                  //         style: TextStyle(
+                                  //             fontSize: 15.sp,
+                                  //             fontWeight: FontWeight.w500),
+                                  //       ),
+                                  //       SizedBox(
+                                  //         height: 4.h,
+                                  //       ),
+                                  //       Text(
+                                  //         "12 video . 25 min",
+                                  //         style: TextStyle(
+                                  //             color: Color.fromARGB(
+                                  //                 255, 139, 139, 139)),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
                             ),
-                          ),
+                          ],
                         ),
+                      // ListTile(
+                      //   title: Text(
+                      //     displayCourse[0]['currculums'][i]['title'],
+                      //     style: TextStyle(
+                      //       // fontSize: 12.sp,
+                      //       fontWeight: FontWeight.w500,
+                      //     ),
+                      //   ),
+                      //   trailing: Text(
+                      //     displayCourse[0]['currculums'][i]['time'],
+                      //     style: TextStyle(
+                      //       // fontSize: 12.sp,
+                      //       fontWeight: FontWeight.w500,
+                      //     ),
+                      //   ),
+                      // ),
                       SizedBox(
                         height: 60.h,
                       ),
@@ -428,25 +483,33 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
                 alignment: Alignment.bottomCenter,
                 child: InkWell(
                   onTap: () async {
-                    var _batches = [];
-                    var tempBatches =
-                        courseController.courseList[widget.id]["shcedules"];
-                    for (int i = 0; i < tempBatches.length; ++i) {
-                      // tempBatches[i]['isSelect'] = false;
-                      _batches.add({
-                        "id": tempBatches[i]["id"],
-                        "start_date": tempBatches[i]['start_date'],
-                        "days": tempBatches[i]['days'],
-                        "start_at": tempBatches[i]['start_at'],
-                        "isSelect": false,
-                      });
+                    var prefs = await SharedPreferences.getInstance();
+                    var _token = prefs.getString("token");
+                    if (_token != null) {
+                      var _batches = [];
+                      var tempBatches = displayCourse[0]["shcedules"];
+                      for (int i = 0; i < tempBatches.length; ++i) {
+                        // tempBatches[i]['isSelect'] = false;
+                        _batches.add({
+                          "id": tempBatches[i]["id"],
+                          "start_date": tempBatches[i]['start_date'],
+                          "days": tempBatches[i]['days'],
+                          "start_at": tempBatches[i]['start_at'],
+                          "isSelect": false,
+                        });
+                      }
+                      print(_batches);
+                      Get.to(SelectBatchScreen(
+                        batchDetails: _batches,
+                        id: widget.id,
+                        courseId: widget.id,
+                      ));
+                    } else {
+                      Get.to(SplashScreen(
+                        courseId: widget.id,
+                      ));
+                      print("LOG::: your are not logged in");
                     }
-                    print(_batches);
-                    Get.to(SelectBatchScreen(
-                      batchDetails: _batches,
-                      id: widget.id,
-                      courseId: courseController.courseList[widget.id]['id'],
-                    ));
                   },
                   child: Container(
                     height: 50.h,
@@ -466,6 +529,6 @@ class _CoursedetailsScreenState extends State<CoursedetailsScreen> {
           ),
         ]),
       ),
-    ));
+    );
   }
 }
