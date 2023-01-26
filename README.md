@@ -1,5 +1,6 @@
 # deanapp
 
+<p float="left">
 <image src="demo/1.jpg" height="400" />
 <image src="demo/2.jpg" height="400" />
 <image src="demo/3.jpg" height="400" />
@@ -19,3 +20,4 @@
 <image src="demo/17.jpg" height="400" />
 <image src="demo/18.jpg" height="400" />
 <image src="demo/19.jpg" height="400" />
+</p>
